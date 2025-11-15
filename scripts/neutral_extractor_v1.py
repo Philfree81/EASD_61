@@ -203,7 +203,7 @@ def process_single_abstract(
     line_index_map = {lid: idx for idx, lid in enumerate(ordered_line_ids)}
 
     # -----------------------------------------------------------------------
-    # En-tête avant sections
+    # En-tête avant sections (dans la colonne du code)
     # -----------------------------------------------------------------------
     header_line_ids: List[str] = []
     for lid in ordered_line_ids:
@@ -286,7 +286,7 @@ def process_single_abstract(
                 e["element_type"] = "author_title"
 
     # -----------------------------------------------------------------------
-    # Auteurs supplémentaires
+    # Auteurs supplémentaires (colonne du code, via ';')
     # -----------------------------------------------------------------------
     semicolon_line_idx: Optional[int] = None
     semicolon_line_id: Optional[str] = None
@@ -351,75 +351,89 @@ def process_single_abstract(
                 e["element_type"] = "section_clinical_trial_registration_number"
 
     # -----------------------------------------------------------------------
-    # Institutions (après le ';', toutes colonnes confondues)
+    # Institutions (toutes colonnes, basé sur indice + AUTHOR_FONT)
     # -----------------------------------------------------------------------
+    # 1) repérer la première section dans l'ordre global
+    first_section_global_idx: Optional[int] = None
+    for idx, lid in enumerate(all_ordered_line_ids):
+        if has_section_label(all_lines[lid]):
+            first_section_global_idx = idx
+            break
+
+    # 2) déterminer où commence la fenêtre d'institutions
     if semicolon_line_id is not None and semicolon_line_id in all_line_index_map:
-        institutions_start_global_idx = all_line_index_map[semicolon_line_id] + 1
-        in_institution_block = False
+        institutions_start_idx = all_line_index_map[semicolon_line_id] + 1
+    else:
+        # pas de ';' trouvé : on autorise à démarrer le bloc institutions
+        # dès la première ligne (avant section) qui ressemble à "indice + AUTHOR_FONT"
+        institutions_start_idx = 0
 
-        for j in range(institutions_start_global_idx, len(all_ordered_line_ids)):
-            lid = all_ordered_line_ids[j]
-            line_elems = all_lines[lid]
+    in_institution_block = False
 
-            # si on rencontre une section, fin de zone institutions
-            if has_section_label(line_elems):
-                break
+    for j in range(institutions_start_idx, len(all_ordered_line_ids)):
+        lid = all_ordered_line_ids[j]
+        line_elems = all_lines[lid]
 
-            text_elems_sorted = sorted(
-                [e for e in line_elems if e.get("type") == "text"],
-                key=lambda e: e.get("position", {}).get("x", 0.0),
-            )
-            if not text_elems_sorted:
-                if in_institution_block:
-                    break
-                continue
-
-            first_text = text_elems_sorted[0]
-
-            # 1) Cas standard : ligne commence par un indice
-            if first_text.get("element_type") == "indice":
-                in_institution_block = True
-                for e in text_elems_sorted:
-                    if e.get("type") != "text":
-                        continue
-                    if e.get("element_type") is None:
-                        e["element_type"] = "institution"
-                continue
-
-            # 2) Démarrage possible d'un bloc institutions sans indice
-            has_candidate_author_font = any(
-                e.get("type") == "text"
-                and e.get("element_type") is None
-                and e.get("signature") == AUTHOR_FONT
-                for e in text_elems_sorted
-            )
-
-            if not in_institution_block and has_candidate_author_font:
-                in_institution_block = True
-                for e in text_elems_sorted:
-                    if (
-                        e.get("type") == "text"
-                        and e.get("element_type") is None
-                        and e.get("signature") == AUTHOR_FONT
-                    ):
-                        e["element_type"] = "institution"
-                continue
-
-            # 3) Suite de bloc institutions (avec ou sans indice au début)
+        # arrêt sur première section (sauf si on n'a jamais démarré le bloc)
+        if has_section_label(line_elems):
             if in_institution_block:
-                for e in text_elems_sorted:
-                    if (
-                        e.get("type") == "text"
-                        and e.get("element_type") is None
-                        and e.get("signature") == AUTHOR_FONT
-                    ):
-                        e["element_type"] = "institution"
-                continue
-
-            # 4) Si on n'a pas encore démarré le bloc, et la ligne
-            #    n'est ni une ligne d'indice, ni une candidate, on sort.
-            if not in_institution_block:
                 break
+            else:
+                # si on n'a pas encore d'institutions, on arrête aussi :
+                break
+
+        # si on a une limite de section connue et qu'on la dépasse, on ne traite plus
+        if first_section_global_idx is not None and j >= first_section_global_idx and in_institution_block:
+            break
+
+        text_elems_sorted = sorted(
+            [e for e in line_elems if e.get("type") == "text"],
+            key=lambda e: e.get("position", {}).get("x", 0.0),
+        )
+        if not text_elems_sorted:
+            if in_institution_block:
+                # ligne vide après institutions => on arrête
+                break
+            continue
+
+        has_indice = any(e.get("element_type") == "indice" for e in text_elems_sorted)
+        has_author_font = any(
+            e.get("signature") == AUTHOR_FONT and e.get("type") == "text"
+            for e in text_elems_sorted
+        )
+
+        # 2.a Démarrage "robuste" : ligne avec indice + AUTHOR_FONT
+        if has_indice and has_author_font and not in_institution_block:
+            in_institution_block = True
+            for e in text_elems_sorted:
+                if (
+                    e.get("type") == "text"
+                    and e.get("signature") == AUTHOR_FONT
+                    and e.get("element_type") is None
+                ):
+                    e["element_type"] = "institution"
+            continue
+
+        # 2.b Si on n'a pas encore démarré et pas le pattern fort, on saute
+        if not in_institution_block:
+            continue
+
+        # 2.c Bloc institutions déjà démarré : toutes les lignes avant section
+        #     avec AUTHOR_FONT deviennent des institutions (même sans indice)
+        if has_author_font:
+            for e in text_elems_sorted:
+                if (
+                    e.get("type") == "text"
+                    and e.get("signature") == AUTHOR_FONT
+                    and e.get("element_type") is None
+                ):
+                    e["element_type"] = "institution"
+            continue
+
+        # 2.d Ligne sans AUTHOR_FONT dans un bloc institutions => fin probable
+        #     (changement de nature de contenu)
+        if in_institution_block:
+            break
 
     # -----------------------------------------------------------------------
     # Sections (sections classiques + supported_by + clinical_trial + disclosure)
