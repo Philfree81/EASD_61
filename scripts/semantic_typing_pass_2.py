@@ -24,12 +24,15 @@ Sortie :
         * section_disclosure / section_disclosure_text
         * abstract_text
         * image / table / image_text
+      + hors abstracts :
+        * index_toc pour les lignes de table des matières (SO 124, SO 125, etc.)
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -64,6 +67,10 @@ SECTION_TYPES = {
     "section_clinical_trial_registration_number",
     "section_disclosure",
 }
+
+# Regex pour les lignes d'index TOC (ex. "SO 124 …")
+RE_TOC_SO = re.compile(r"^SO\s+\d+\b", re.IGNORECASE)
+
 
 # ---------------------------------------------------------------------------
 
@@ -128,6 +135,7 @@ def element_global_key(e: Dict[str, Any]) -> Tuple[int, int, float, int]:
 
 
 def compute_abstract_spans(elements: List[Dict[str, Any]]) -> List[Tuple[Dict[str, Any], int, int]]:
+    """Repère les blocs d'abstracts entre code_abstract successifs."""
     code_indices: List[int] = []
     for idx, e in enumerate(elements):
         if not isinstance(e, dict):
@@ -148,6 +156,50 @@ def compute_abstract_spans(elements: List[Dict[str, Any]]) -> List[Tuple[Dict[st
         spans.append((elements[code_idx], start_idx, end_idx))
 
     return spans
+
+
+# ---------------------------------------------------------------------------
+# Tag index_toc hors abstracts
+# ---------------------------------------------------------------------------
+
+
+def tag_index_toc(elements: List[Dict[str, Any]], spans: List[Tuple[Dict[str, Any], int, int]]) -> None:
+    """
+    Marque les lignes de table des matières (index_toc) hors abstracts :
+      - "diabetes" isolé (comme titre de section)
+      - lignes type "SO 124 ..." ou "SO 125 ..."
+    """
+    in_abstract = [False] * len(elements)
+    for _, start, end in spans:
+        for i in range(start, end + 1):
+            if 0 <= i < len(in_abstract):
+                in_abstract[i] = True
+
+    for idx, e in enumerate(elements):
+        if not isinstance(e, dict):
+            continue
+        if in_abstract[idx]:
+            continue  # on ne touche pas aux éléments d'abstract
+        if e.get("element_type") is not None:
+            continue
+        if e.get("type") != "text":
+            continue
+
+        text = (e.get("text") or "").strip()
+        sig = e.get("signature")
+        line_pos = e.get("line_position")
+        line_start = e.get("line_start")
+
+        # 1) Ligne "diabetes" (titre de section dans l'exemple)
+        if text.lower() == "diabetes":
+            e["element_type"] = "index_toc"
+            continue
+
+        # 2) Lignes de type "SO 124 ...."
+        if line_start and line_pos == "left" and sig == AUTHOR_FONT:
+            if RE_TOC_SO.match(text):
+                e["element_type"] = "index_toc"
+                continue
 
 
 # ---------------------------------------------------------------------------
@@ -322,7 +374,8 @@ def process_single_abstract(
                         e["element_type"] = "author"
 
     # -----------------------------------------------------------------------
-    # Marquage des labels "Supported by:" et "Clinical Trial Registration Number:"
+    # Marquage des labels "Supported by:" et
+    # "Clinical Trial Registration Number:"
     # -----------------------------------------------------------------------
     for e in span_elems:
         if (
@@ -338,7 +391,7 @@ def process_single_abstract(
                 e["element_type"] = "section_clinical_trial_registration_number"
 
     # -----------------------------------------------------------------------
-    # Institutions
+    # Institutions (avec ou sans indice)
     # -----------------------------------------------------------------------
     if semicolon_line_idx is not None:
         institutions_start_idx = semicolon_line_idx + 1
@@ -357,29 +410,56 @@ def process_single_abstract(
             )
             if not text_elems_sorted:
                 if in_institution_block:
+                    # ligne vide après institutions = fin de bloc
                     break
                 continue
 
             first_text = text_elems_sorted[0]
 
+            # 1) Cas standard : la ligne commence par un indice -> institutions
             if first_text.get("element_type") == "indice":
                 in_institution_block = True
                 for e in text_elems_sorted:
-                    if e.get("element_type") is None and e.get("type") == "text":
+                    if e.get("type") != "text":
+                        continue
+                    if e.get("element_type") is None:
                         e["element_type"] = "institution"
                 continue
 
-            if in_institution_block:
+            # 2) Démarrage possible d'un bloc institutions SANS indice
+            has_candidate_author_font = any(
+                e.get("type") == "text"
+                and e.get("element_type") is None
+                and e.get("signature") == AUTHOR_FONT
+                for e in text_elems_sorted
+            )
+
+            if not in_institution_block and has_candidate_author_font:
+                in_institution_block = True
                 for e in text_elems_sorted:
                     if (
-                        e.get("element_type") is None
-                        and e.get("type") == "text"
+                        e.get("type") == "text"
+                        and e.get("element_type") is None
                         and e.get("signature") == AUTHOR_FONT
                     ):
                         e["element_type"] = "institution"
                 continue
 
-            break
+            # 3) Suite de bloc institutions (avec ou sans indice au début)
+            if in_institution_block:
+                for e in text_elems_sorted:
+                    if (
+                        e.get("type") == "text"
+                        and e.get("element_type") is None
+                        and e.get("signature") == AUTHOR_FONT
+                    ):
+                        e["element_type"] = "institution"
+                continue
+
+            # 4) Si on n'a pas encore démarré le bloc, et la ligne
+            #    n'est ni une ligne d'indice, ni une candidate, on sort.
+            if not in_institution_block:
+                break
 
     # -----------------------------------------------------------------------
     # Sections (sections classiques + supported_by + clinical_trial + disclosure)
@@ -559,8 +639,13 @@ def process_file(input_path: Path, output_path: Path) -> None:
         key=lambda e: element_global_key(e) if isinstance(e, dict) else (0, 0, 0.0, 0)
     )
 
+    # spans d'abstracts (basés sur code_abstract)
     spans = compute_abstract_spans(elements)
 
+    # marquage des index de table des matières hors abstracts
+    tag_index_toc(elements, spans)
+
+    # traitement des abstracts
     for abs_idx, (code_elem, span_start, span_end) in enumerate(spans, start=1):
         if not isinstance(code_elem, dict):
             continue
