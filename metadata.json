@@ -1,0 +1,1983 @@
+{
+  "metadata": {
+    "DOI": "10.1007",
+    "DOI_num_editeur": "1007",
+    "DOI_num_doc": "s00125-025-06497-1",
+    "lien_doi": "https://doi.org/10.1007/s00125-025-06497-1",
+    "year": 2025,
+    "journal": "Diabetologia",
+    "page_interne_debut": "S1",
+    "page_interne_fin": "S754",
+    "tech_document_name": "Diabetologia (2025) 68 (Suppl 1):S1–S754",
+    "nature_contenu": "ABSTRACTS",
+    "doc_title": "61st EASD Annual Meeting of the European Association for the Study \nof Diabetes",
+    "event_city": "=== PAGE 1 ===\nVol.:(0123456789)\n1 3\nDiabetologia (2025) 68 (Suppl 1):S1–S754 \nhttps://doi.org/10.1007/s00125-025-06497-1\nABSTRACTS\n61st EASD Annual Meeting of the European Association for the Study \nof Diabetes\nVienna, Austria",
+    "date_event_start": "2025-09-15",
+    "date_event_end": "2025-09-19"
+  },
+  "table_of_contents": {
+    "sections": [
+      {
+        "name": "Abstracts",
+        "level": 1,
+        "subsections": [
+          {
+            "name": "Index of Oral Presentations",
+            "level": 2,
+            "sessions": [
+              {
+                "code": "OP 01",
+                "title": "Influencing cardiovascular outcomes: medications and behaviours"
+              },
+              {
+                "code": "OP 02",
+                "title": "Novel risk factors for type 2 diabetes"
+              },
+              {
+                "code": "OP 03",
+                "title": "CGM matrix: no life outside?"
+              },
+              {
+                "code": "OP 04",
+                "title": "Behind the screens: adventures in type 1 diabetes clinical trials"
+              },
+              {
+                "code": "OP 05",
+                "title": "Did we underestimate the role of gut microbiota in the patho- genesis of diabetes?"
+              },
+              {
+                "code": "OP 06",
+                "title": "Unseen risks: Understanding liver health risks beyond body weight"
+              },
+              {
+                "code": "OP 08",
+                "title": "Type 1 diabetes onset, metabolic indicators and complications"
+              },
+              {
+                "code": "OP 09",
+                "title": "Living with pumping and looping"
+              },
+              {
+                "code": "OP 10",
+                "title": "Updates in autonomic neuropathy and diabetes-related foot complications"
+              },
+              {
+                "code": "OP 11",
+                "title": "Promising therapies in type 2 diabetes and obesity"
+              },
+              {
+                "code": "OP 12",
+                "title": "Monogenic diabetes diagnosis, treatment and aetiology"
+              },
+              {
+                "code": "OP 13",
+                "title": "GLP-1 trending: the latest developments"
+              },
+              {
+                "code": "OP 14",
+                "title": "Lifestyle and pharmacological risk factors for type 2 diabetes"
+              },
+              {
+                "code": "OP 15",
+                "title": "Pregnancy and diabetes: new insights"
+              },
+              {
+                "code": "OP 16",
+                "title": "Monitoring the fall of the type 1 diabetes islet empire"
+              },
+              {
+                "code": "OP 17",
+                "title": "New evidence in diabetes-related neuropathy: from biomarkers to imaging"
+              },
+              {
+                "code": "OP 18",
+                "title": "Timing, type, and targets: mechanisms of exercise adaptation"
+              },
+              {
+                "code": "OP 19",
+                "title": "Revealing the inner life of islets"
+              },
+              {
+                "code": "OP 20",
+                "title": "\"We want to live our lives\": quality of life and psychological well-being matters"
+              },
+              {
+                "code": "OP 21",
+                "title": "Diabetes-related nephropathy: from bench to bedside"
+              },
+              {
+                "code": "OP 22",
+                "title": "Breaking boundaries: novel therapeutics and precision medicine in diabetes"
+              },
+              {
+                "code": "OP 23",
+                "title": "New avenues for the GLP-1R agonists"
+              },
+              {
+                "code": "OP 24",
+                "title": "Risk stratification and treatment of diabetes-related retinopathy"
+              },
+              {
+                "code": "OP 25",
+                "title": "Is semaglutide taking a step up?"
+              },
+              {
+                "code": "OP 26",
+                "title": "Diagnosis, markers and burden of prediabetes"
+              },
+              {
+                "code": "OP 27",
+                "title": "When, what and how of nutritional therapy"
+              },
+              {
+                "code": "OP 28",
+                "title": "Guardians of the islet galaxy: protect and replace"
+              },
+              {
+                "code": "OP 29",
+                "title": "Multimorbidity in diabetes - are we aware of its magnitude?"
+              },
+              {
+                "code": "OP 30",
+                "title": "Signals of dysfunction: decoding the molecular language of MASLD"
+              },
+              {
+                "code": "OP 31",
+                "title": "Once weekly on weekend or weekday?"
+              },
+              {
+                "code": "OP 32",
+                "title": "It takes two to tango: news on the dual-agonists"
+              },
+              {
+                "code": "OP 33",
+                "title": "SGLT2 inhibitors: the multi-benefit breakthrough"
+              },
+              {
+                "code": "OP 34",
+                "title": "Predictors of cardiovascular risk in people with diabetes"
+              },
+              {
+                "code": "OP 35",
+                "title": "Glow, never go low!"
+              },
+              {
+                "code": "OP 36",
+                "title": "Metabolic motion: exercise, muscle, and mechanisms in people with type 2 diabetes"
+              },
+              {
+                "code": "OP 37",
+                "title": "From insulin advances to novel therapies: latest clinical evidence"
+              },
+              {
+                "code": "OP 38",
+                "title": "New medications on the horizon?"
+              },
+              {
+                "code": "OP 39",
+                "title": "From muscle to health: growth, atrophy, and adaptation in peo- ple with diabetes"
+              },
+              {
+                "code": "OP 40",
+                "title": "Back to the future: building islet cells from scratch"
+              },
+              {
+                "code": "OP 41",
+                "title": "For those who love to sleep (and exercise)"
+              },
+              {
+                "code": "OP 42",
+                "title": "Old risk factors for cardio-renal complications"
+              },
+              {
+                "code": "OP 43",
+                "title": "The many faces of insulin resistance"
+              },
+              {
+                "code": "OP 44",
+                "title": "Dementia and cognitive dysfunction: Do we realise their mag- nitude and importance for people with diabetes?"
+              },
+              {
+                "code": "OP 45",
+                "title": "Fueling longevity: metabolic pathways in muscle and adipose tissue"
+              },
+              {
+                "code": "OP 46",
+                "title": "Targeting islets in type 2 diabetes: What is the bull’s eye?"
+              },
+              {
+                "code": "OP 47",
+                "title": "AID parade"
+              },
+              {
+                "code": "OP 48",
+                "title": "Genetic factors relating to type 1 and type 2 diabetes"
+              }
+            ]
+          },
+          {
+            "name": "Index of Short Oral Discussions",
+            "level": 2,
+            "sessions": [
+              {
+                "code": "SO 001",
+                "title": "MODY and neonatal diabetes"
+              },
+              {
+                "code": "SO 002",
+                "title": "Genetic and omics in type 1 diabetes"
+              },
+              {
+                "code": "SO 003",
+                "title": "Genetics of type 2 diabetes"
+              },
+              {
+                "code": "SO 004",
+                "title": "Epigenetics of type 2 diabetes"
+              },
+              {
+                "code": "SO 005",
+                "title": "Classification of diabetes subtype"
+              },
+              {
+                "code": "SO 006",
+                "title": "Predicting type 2 diabetes using standard statistical and machine learning algorithms"
+              },
+              {
+                "code": "SO 007",
+                "title": "Type 1 diabetes epidemiology and metabolic indicators"
+              },
+              {
+                "code": "SO 008",
+                "title": "Prediabetes: prevalence and diagnosis"
+              },
+              {
+                "code": "SO 009",
+                "title": "Mortality in type 2 diabetes"
+              },
+              {
+                "code": "SO 010",
+                "title": "Post GDM consequence in mother and child"
+              },
+              {
+                "code": "SO 011",
+                "title": "Risk and outcome of diabetes in pregnancy"
+              },
+              {
+                "code": "SO 012",
+                "title": "Risk factors for type 2 diabetes onset"
+              },
+              {
+                "code": "SO 013",
+                "title": "Metabolic and vascular complications of diabetes"
+              },
+              {
+                "code": "SO 014",
+                "title": "Clinical burden of diabetes"
+              },
+              {
+                "code": "SO 015",
+                "title": "Glycaemia in diabetes"
+              },
+              {
+                "code": "SO 016",
+                "title": "Drugs epidemiology in diabetes"
+              },
+              {
+                "code": "SO 017",
+                "title": "More on risk factors for type 2 diabetes onset"
+              },
+              {
+                "code": "SO 018",
+                "title": "Clinical tales from the T1D trenches"
+              },
+              {
+                "code": "SO 019",
+                "title": "It’s beta cell replacement time"
+              },
+              {
+                "code": "SO 020",
+                "title": "Crystal balls and beta cells: predicting T1D’s next move === PAGE 2 === S2 Diabetologia (2025) 68 (Suppl 1):S1–S754 1 3"
+              },
+              {
+                "code": "SO 021",
+                "title": "Islets in the T1D storm"
+              },
+              {
+                "code": "SO 022",
+                "title": "Stem cell top models on the molecular mystery runway"
+              },
+              {
+                "code": "SO 023",
+                "title": "Who let the T cells in: saving beta cells in type 1 diabetes"
+              },
+              {
+                "code": "SO 024",
+                "title": "Beyond glucose: multidimensional phenotyping of type1 diabetes"
+              },
+              {
+                "code": "SO 025",
+                "title": "Islet cell adaptation gone right (and wrong)"
+              },
+              {
+                "code": "SO 026",
+                "title": "Transcribe me if you can: the real regulators of beta cell county"
+              },
+              {
+                "code": "SO 027",
+                "title": "No more secrets just secretion"
+              },
+              {
+                "code": "SO 028",
+                "title": "Chemical romance: compounds that woo islets"
+              },
+              {
+                "code": "SO 029",
+                "title": "Beta cells lost in signal transduction"
+              },
+              {
+                "code": "SO 030",
+                "title": "The islet games: caught in the immune attack fire"
+              },
+              {
+                "code": "SO 031",
+                "title": "Beta cells breaking under stress"
+              },
+              {
+                "code": "SO 032",
+                "title": "Feeding signals: how gut hormones shape appetite and metabolism"
+              },
+              {
+                "code": "SO 033",
+                "title": "Metabolic flexibility and insulin sensitivity: drivers, disruptors, and interventions"
+              },
+              {
+                "code": "SO 034",
+                "title": "Molecular keys to unlocking insulin sensitivity"
+              },
+              {
+                "code": "SO 035",
+                "title": "The secret life of beta cells: forecasting, firing, and failing"
+              },
+              {
+                "code": "SO 036",
+                "title": "Exercise as a metabolic modulator in people with type 1 dia- betes: carbs, circuits, and control"
+              },
+              {
+                "code": "SO 037",
+                "title": "Move it or lose it: metabolic consequences of exercise and its absence"
+              },
+              {
+                "code": "SO 038",
+                "title": "Healing the fatty liver: hormones, medications, and metabolic insights"
+              },
+              {
+                "code": "SO 039",
+                "title": "Cardiometabolic complications and mortality risk in MASLD"
+              },
+              {
+                "code": "SO 040",
+                "title": "Mapping the molecular maze of MASLD and MASH"
+              },
+              {
+                "code": "SO 041",
+                "title": "From nutrition to medications: influencing MASLD through the metabolic axis"
+              },
+              {
+                "code": "SO 042",
+                "title": "Emerging predictors of steatosis and fibrosis in the context of metabolic risk"
+              },
+              {
+                "code": "SO 043",
+                "title": "New frontiers in MASLD risk and diagnosis, from breastfeed- ing to biomarkers"
+              },
+              {
+                "code": "SO 044",
+                "title": "Under pressure: hormonal and neural responses to glycaemic stress"
+              },
+              {
+                "code": "SO 045",
+                "title": "Fit and functional: reversing metabolic risk through muscle- centric interventions"
+              },
+              {
+                "code": "SO 046",
+                "title": "Hot, heavy, and hidden, unpacking the unusual drivers of gly- caemic health"
+              },
+              {
+                "code": "SO 047",
+                "title": "Clinical studies on unconventional drivers of diabetes"
+              },
+              {
+                "code": "SO 048",
+                "title": "Mechanisms, modifiers, markers, the complex roots of insulin resistance"
+              },
+              {
+                "code": "SO 049",
+                "title": "Neuroinflammation: Is the brain taking too much heat?"
+              },
+              {
+                "code": "SO 050",
+                "title": "Adipocytes in flames"
+              },
+              {
+                "code": "SO 051",
+                "title": "[Br]eaking [Ba]t"
+              },
+              {
+                "code": "SO 052",
+                "title": "Lipid metabolism and metabolic health"
+              },
+              {
+                "code": "SO 053",
+                "title": "Novel mechanisms regulating energy metabolism"
+              },
+              {
+                "code": "SO 054",
+                "title": "W[H]AT’s up! Novel mechanisms of white adipose tissue function"
+              },
+              {
+                "code": "SO 055",
+                "title": "Novel insights into regulation of metabolism by GLP-1R agonists"
+              },
+              {
+                "code": "SO 056",
+                "title": "A refined look at the pancreas in health and disease"
+              },
+              {
+                "code": "SO 057",
+                "title": "Adipose tissue function after training, bariatric surgery and during senescence"
+              },
+              {
+                "code": "SO 058",
+                "title": "Beyond BMI: predictors of glucometabolic health"
+              },
+              {
+                "code": "SO 059",
+                "title": "Novel mechanisms of glucose management"
+              },
+              {
+                "code": "SO 060",
+                "title": "Towards a better understanding of white fat cell metabolism"
+              },
+              {
+                "code": "SO 061",
+                "title": "Peripheral mechanisms of glucose metabolism"
+              },
+              {
+                "code": "SO 062",
+                "title": "CNS regulation of systemic energy and glucose metabolism"
+              },
+              {
+                "code": "SO 063",
+                "title": "News on adipocyte biology"
+              },
+              {
+                "code": "SO 064",
+                "title": "Beyond BMI 02"
+              },
+              {
+                "code": "SO 065",
+                "title": "Pathways and paradoxes: unraveling the complexities of meta- bolic health"
+              },
+              {
+                "code": "SO 066",
+                "title": "Novel therapeutics: preclinical evidence for next-generation treatments"
+              },
+              {
+                "code": "SO 067",
+                "title": "Taking control: behavioural changes for optimal management of type 2 diabetes"
+              },
+              {
+                "code": "SO 068",
+                "title": "Dietary diversity in practice: navigating multiple nutritional approaches"
+              },
+              {
+                "code": "SO 069",
+                "title": "SGLT2 inhibitors: glycaemic indicators and beyond in clini- cal practice"
+              },
+              {
+                "code": "SO 070",
+                "title": "Real-world evidence for non-insulin therapies: clinical practice insights"
+              },
+              {
+                "code": "SO 071",
+                "title": "Bench to bedside: incretin research across species"
+              },
+              {
+                "code": "SO 072",
+                "title": "Next-generation therapeutics: novel approaches to diabetes and obesity"
+              },
+              {
+                "code": "SO 073",
+                "title": "The GLP-1 portfolio: diverse formulations for expanding clini- cal applications"
+              },
+              {
+                "code": "SO 074",
+                "title": "In (hospital) bed with diabetes"
+              },
+              {
+                "code": "SO 075",
+                "title": "It’s all personal"
+              },
+              {
+                "code": "SO 076",
+                "title": "How to have a happy life in a love/hate triangle of diabetes + pregnancy + CGM"
+              },
+              {
+                "code": "SO 077",
+                "title": "Hi Hypo :) I would like to know you better"
+              },
+              {
+                "code": "SO 078",
+                "title": "Everyone needs AID"
+              },
+              {
+                "code": "SO 079",
+                "title": "Mix and inject"
+              },
+              {
+                "code": "SO 080",
+                "title": "K like ketones"
+              },
+              {
+                "code": "SO 081",
+                "title": "Hi Hybrid :) how are you today?"
+              },
+              {
+                "code": "SO 082",
+                "title": "Now let’s count to seven, ready?"
+              },
+              {
+                "code": "SO 083",
+                "title": "More AID needed"
+              },
+              {
+                "code": "SO 084",
+                "title": "Predicting a smart, bright and intelligent future for diabetes care"
+              },
+              {
+                "code": "SO 085",
+                "title": "It’s getting complicated"
+              },
+              {
+                "code": "SO 086",
+                "title": "\"Don’t leave me alone\", insulin said"
+              },
+              {
+                "code": "SO 087",
+                "title": "CGM: replacing low glucose with low cost"
+              },
+              {
+                "code": "SO 088",
+                "title": "Diabetes in cyberspace"
+              },
+              {
+                "code": "SO 089",
+                "title": "Doesn’t CGM mean \"Can Get Motivated\"?"
+              },
+              {
+                "code": "SO 090",
+                "title": "Prediction and treatment of diabetes-related kidney complications"
+              },
+              {
+                "code": "SO 091",
+                "title": "Basic insights in diabetes-related kidney complications"
+              },
+              {
+                "code": "SO 092",
+                "title": "Biomarkers in diabetes-related kidney complications"
+              },
+              {
+                "code": "SO 093",
+                "title": "Animal and cell culture models of diabetes-related kidney complications"
+              },
+              {
+                "code": "SO 094",
+                "title": "New in the treatment of diabetes-related kidney complications"
+              },
+              {
+                "code": "SO 095",
+                "title": "Epidemiology of diabetes-related kidney complications"
+              },
+              {
+                "code": "SO 096",
+                "title": "Clinical aspects of diabetes during pregnancy"
+              },
+              {
+                "code": "SO 097",
+                "title": "Clinical aspects of gestational diabetes"
+              },
+              {
+                "code": "SO 098",
+                "title": "Gestational diabetes: exciting new data"
+              },
+              {
+                "code": "SO 099",
+                "title": "Biomarkers and mechanisms in diabetes and pregnancy"
+              },
+              {
+                "code": "SO 100",
+                "title": "Treatment and monitoring of gestational diabetes"
+              },
+              {
+                "code": "SO 101",
+                "title": "Diagnosis of diabetes-related neuropathy"
+              },
+              {
+                "code": "SO 102",
+                "title": "Potential treatments of diabetes-related neuropathy"
+              },
+              {
+                "code": "SO 103",
+                "title": "Pathophysiology of diabetes-related neuropathy"
+              },
+              {
+                "code": "SO 104",
+                "title": "Advancements in diabetes-related autonomic neuropathy"
+              },
+              {
+                "code": "SO 105",
+                "title": "Treatment of diabetes-related retinopathy"
+              },
+              {
+                "code": "SO 106",
+                "title": "Pathophysiology of diabetes-related retinopathy"
+              },
+              {
+                "code": "SO 107",
+                "title": "Arterial hypertension: more than a risk factor in diabetes"
+              },
+              {
+                "code": "SO 108",
+                "title": "Pathogenetic mechanisms in diabetes-related foot"
+              },
+              {
+                "code": "SO 109",
+                "title": "Diagnosis and treatment of diabetes-related foot"
+              },
+              {
+                "code": "SO 110",
+                "title": "Epidemiology and treatment of diabetes-related foot"
+              },
+              {
+                "code": "SO 111",
+                "title": "Lipid and non-lipid drugs impacts on lipids, vascular tissues and outcomes"
+              },
+              {
+                "code": "SO 112",
+                "title": "Novel lipid and lipoprotein insights"
+              },
+              {
+                "code": "SO 113",
+                "title": "Endothelial interaction in diabetes"
+              },
+              {
+                "code": "SO 114",
+                "title": "All things immune"
+              },
+              {
+                "code": "SO 115",
+                "title": "Type 1 diabetes and novel CV insights"
+              },
+              {
+                "code": "SO 116",
+                "title": "Known and novel biomarkers in cardiometabolic health"
+              },
+              {
+                "code": "SO 117",
+                "title": "Heart failure and other CV insights in people with diabetes"
+              },
+              {
+                "code": "SO 118",
+                "title": "Prediction and management of complications and adverse therapy outcomes"
+              },
+              {
+                "code": "SO 119",
+                "title": "Type 2 diabetes: muscles, fat, bones"
+              },
+              {
+                "code": "SO 120",
+                "title": "Non-obvious (?) complications of type 2 diabetes"
+              },
+              {
+                "code": "SO 121",
+                "title": "Type 1 diabetes: late and acute complications"
+              },
+              {
+                "code": "SO 122",
+                "title": "Cognitive dysfunction on the target === PAGE 3 === S3 Diabetologia (2025) 68 (Suppl 1):S1–S754 1 3"
+              },
+              {
+                "code": "SO 123",
+                "title": "Neurological, emotional, cognitive status of people with diabetes"
+              },
+              {
+                "code": "SO 124",
+                "title": "Neurodegeneration and depression in people with diabetes"
+              },
+              {
+                "code": "SO 125",
+                "title": "Type 2 diabetes: financial, social considerations, prevention of complications"
+              },
+              {
+                "code": "SO 126",
+                "title": "Type 1 diabetes: it is not just about insulin management"
+              },
+              {
+                "code": "SO 127",
+                "title": "Cancer, liver and diabetes"
+              },
+              {
+                "code": "SO 128",
+                "title": "Biochemical face of cognitive impairment and dementia"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Late-Breaking Abstracts",
+        "level": 1,
+        "subsections": [
+          {
+            "name": "Index of Oral Presentations",
+            "level": 2,
+            "sessions": [
+              {
+                "code": "LBA OP 01",
+                "title": "From aching genes to heartache in type 2 diabetes"
+              },
+              {
+                "code": "LBA OP 02",
+                "title": "Before and after pregnancy with diabetes"
+              },
+              {
+                "code": "LBA OP 03",
+                "title": "Is there a life after GLP-1?"
+              },
+              {
+                "code": "LBA OP 04",
+                "title": "The best abstracts with ’semaglutide’ in the title"
+              },
+              {
+                "code": "LBA OP 05",
+                "title": "Living with type 1 and without complications"
+              },
+              {
+                "code": "LBA OP 06",
+                "title": "Combating complications with combining compounds"
+              },
+              {
+                "code": "LBA OP 07",
+                "title": "Food and exercise: the best marriage of convenience"
+              }
+            ]
+          },
+          {
+            "name": "Index of Short Oral Discussions",
+            "level": 2,
+            "sessions": [
+              {
+                "code": "LBA SO 01",
+                "title": "Beyond GLP-1 horizon: oral drugs, dual agonists"
+              },
+              {
+                "code": "LBA SO 02",
+                "title": "Thinking big about treating obesity"
+              },
+              {
+                "code": "LBA SO 03",
+                "title": "Incredible incretins"
+              },
+              {
+                "code": "LBA SO 04",
+                "title": "Putting obesity under microscope"
+              },
+              {
+                "code": "LBA SO 05",
+                "title": "Beta cell reserve and resilience: new insights"
+              },
+              {
+                "code": "LBA SO 06",
+                "title": "Diabetes-related nephropathy: contemporary approaches to prevention and treatment"
+              },
+              {
+                "code": "LBA SO 07",
+                "title": "The Diabetes-Brain Axis: from pathophysiology to protection"
+              },
+              {
+                "code": "LBA SO 08",
+                "title": "If type 1 diabetes has any secrets, they can be found here"
+              },
+              {
+                "code": "LBA SO 09",
+                "title": "From mastering the scoring to fine-tuning the treatment"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "sessions": [
+    {
+      "code": "OP 01",
+      "title": "Influencing cardiovascular outcomes: medications and behaviours",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 02",
+      "title": "Novel risk factors for type 2 diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 03",
+      "title": "CGM matrix: no life outside?",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 04",
+      "title": "Behind the screens: adventures in type 1 diabetes clinical trials",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 05",
+      "title": "Did we underestimate the role of gut microbiota in the patho- genesis of diabetes?",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 06",
+      "title": "Unseen risks: Understanding liver health risks beyond body weight",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 08",
+      "title": "Type 1 diabetes onset, metabolic indicators and complications",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 09",
+      "title": "Living with pumping and looping",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 10",
+      "title": "Updates in autonomic neuropathy and diabetes-related foot complications",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 11",
+      "title": "Promising therapies in type 2 diabetes and obesity",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 12",
+      "title": "Monogenic diabetes diagnosis, treatment and aetiology",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 13",
+      "title": "GLP-1 trending: the latest developments",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 14",
+      "title": "Lifestyle and pharmacological risk factors for type 2 diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 15",
+      "title": "Pregnancy and diabetes: new insights",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 16",
+      "title": "Monitoring the fall of the type 1 diabetes islet empire",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 17",
+      "title": "New evidence in diabetes-related neuropathy: from biomarkers to imaging",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 18",
+      "title": "Timing, type, and targets: mechanisms of exercise adaptation",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 19",
+      "title": "Revealing the inner life of islets",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 20",
+      "title": "\"We want to live our lives\": quality of life and psychological well-being matters",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 21",
+      "title": "Diabetes-related nephropathy: from bench to bedside",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 22",
+      "title": "Breaking boundaries: novel therapeutics and precision medicine in diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 23",
+      "title": "New avenues for the GLP-1R agonists",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 24",
+      "title": "Risk stratification and treatment of diabetes-related retinopathy",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 25",
+      "title": "Is semaglutide taking a step up?",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 26",
+      "title": "Diagnosis, markers and burden of prediabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 27",
+      "title": "When, what and how of nutritional therapy",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 28",
+      "title": "Guardians of the islet galaxy: protect and replace",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 29",
+      "title": "Multimorbidity in diabetes - are we aware of its magnitude?",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 30",
+      "title": "Signals of dysfunction: decoding the molecular language of MASLD",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 31",
+      "title": "Once weekly on weekend or weekday?",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 32",
+      "title": "It takes two to tango: news on the dual-agonists",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 33",
+      "title": "SGLT2 inhibitors: the multi-benefit breakthrough",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 34",
+      "title": "Predictors of cardiovascular risk in people with diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 35",
+      "title": "Glow, never go low!",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 36",
+      "title": "Metabolic motion: exercise, muscle, and mechanisms in people with type 2 diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 37",
+      "title": "From insulin advances to novel therapies: latest clinical evidence",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 38",
+      "title": "New medications on the horizon?",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 39",
+      "title": "From muscle to health: growth, atrophy, and adaptation in peo- ple with diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 40",
+      "title": "Back to the future: building islet cells from scratch",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 41",
+      "title": "For those who love to sleep (and exercise)",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 42",
+      "title": "Old risk factors for cardio-renal complications",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 43",
+      "title": "The many faces of insulin resistance",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 44",
+      "title": "Dementia and cognitive dysfunction: Do we realise their mag- nitude and importance for people with diabetes?",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 45",
+      "title": "Fueling longevity: metabolic pathways in muscle and adipose tissue",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 46",
+      "title": "Targeting islets in type 2 diabetes: What is the bull’s eye?",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 47",
+      "title": "AID parade",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "OP 48",
+      "title": "Genetic factors relating to type 1 and type 2 diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "SO 001",
+      "title": "MODY and neonatal diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 002",
+      "title": "Genetic and omics in type 1 diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 003",
+      "title": "Genetics of type 2 diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 004",
+      "title": "Epigenetics of type 2 diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 005",
+      "title": "Classification of diabetes subtype",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 006",
+      "title": "Predicting type 2 diabetes using standard statistical and machine learning algorithms",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 007",
+      "title": "Type 1 diabetes epidemiology and metabolic indicators",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 008",
+      "title": "Prediabetes: prevalence and diagnosis",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 009",
+      "title": "Mortality in type 2 diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 010",
+      "title": "Post GDM consequence in mother and child",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 011",
+      "title": "Risk and outcome of diabetes in pregnancy",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 012",
+      "title": "Risk factors for type 2 diabetes onset",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 013",
+      "title": "Metabolic and vascular complications of diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 014",
+      "title": "Clinical burden of diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 015",
+      "title": "Glycaemia in diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 016",
+      "title": "Drugs epidemiology in diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 017",
+      "title": "More on risk factors for type 2 diabetes onset",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 018",
+      "title": "Clinical tales from the T1D trenches",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 019",
+      "title": "It’s beta cell replacement time",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 020",
+      "title": "Crystal balls and beta cells: predicting T1D’s next move === PAGE 2 === S2 Diabetologia (2025) 68 (Suppl 1):S1–S754 1 3",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 021",
+      "title": "Islets in the T1D storm",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 022",
+      "title": "Stem cell top models on the molecular mystery runway",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 023",
+      "title": "Who let the T cells in: saving beta cells in type 1 diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 024",
+      "title": "Beyond glucose: multidimensional phenotyping of type1 diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 025",
+      "title": "Islet cell adaptation gone right (and wrong)",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 026",
+      "title": "Transcribe me if you can: the real regulators of beta cell county",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 027",
+      "title": "No more secrets just secretion",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 028",
+      "title": "Chemical romance: compounds that woo islets",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 029",
+      "title": "Beta cells lost in signal transduction",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 030",
+      "title": "The islet games: caught in the immune attack fire",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 031",
+      "title": "Beta cells breaking under stress",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 032",
+      "title": "Feeding signals: how gut hormones shape appetite and metabolism",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 033",
+      "title": "Metabolic flexibility and insulin sensitivity: drivers, disruptors, and interventions",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 034",
+      "title": "Molecular keys to unlocking insulin sensitivity",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 035",
+      "title": "The secret life of beta cells: forecasting, firing, and failing",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 036",
+      "title": "Exercise as a metabolic modulator in people with type 1 dia- betes: carbs, circuits, and control",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 037",
+      "title": "Move it or lose it: metabolic consequences of exercise and its absence",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 038",
+      "title": "Healing the fatty liver: hormones, medications, and metabolic insights",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 039",
+      "title": "Cardiometabolic complications and mortality risk in MASLD",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 040",
+      "title": "Mapping the molecular maze of MASLD and MASH",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 041",
+      "title": "From nutrition to medications: influencing MASLD through the metabolic axis",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 042",
+      "title": "Emerging predictors of steatosis and fibrosis in the context of metabolic risk",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 043",
+      "title": "New frontiers in MASLD risk and diagnosis, from breastfeed- ing to biomarkers",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 044",
+      "title": "Under pressure: hormonal and neural responses to glycaemic stress",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 045",
+      "title": "Fit and functional: reversing metabolic risk through muscle- centric interventions",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 046",
+      "title": "Hot, heavy, and hidden, unpacking the unusual drivers of gly- caemic health",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 047",
+      "title": "Clinical studies on unconventional drivers of diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 048",
+      "title": "Mechanisms, modifiers, markers, the complex roots of insulin resistance",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 049",
+      "title": "Neuroinflammation: Is the brain taking too much heat?",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 050",
+      "title": "Adipocytes in flames",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 051",
+      "title": "[Br]eaking [Ba]t",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 052",
+      "title": "Lipid metabolism and metabolic health",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 053",
+      "title": "Novel mechanisms regulating energy metabolism",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 054",
+      "title": "W[H]AT’s up! Novel mechanisms of white adipose tissue function",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 055",
+      "title": "Novel insights into regulation of metabolism by GLP-1R agonists",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 056",
+      "title": "A refined look at the pancreas in health and disease",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 057",
+      "title": "Adipose tissue function after training, bariatric surgery and during senescence",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 058",
+      "title": "Beyond BMI: predictors of glucometabolic health",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 059",
+      "title": "Novel mechanisms of glucose management",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 060",
+      "title": "Towards a better understanding of white fat cell metabolism",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 061",
+      "title": "Peripheral mechanisms of glucose metabolism",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 062",
+      "title": "CNS regulation of systemic energy and glucose metabolism",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 063",
+      "title": "News on adipocyte biology",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 064",
+      "title": "Beyond BMI 02",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 065",
+      "title": "Pathways and paradoxes: unraveling the complexities of meta- bolic health",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 066",
+      "title": "Novel therapeutics: preclinical evidence for next-generation treatments",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 067",
+      "title": "Taking control: behavioural changes for optimal management of type 2 diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 068",
+      "title": "Dietary diversity in practice: navigating multiple nutritional approaches",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 069",
+      "title": "SGLT2 inhibitors: glycaemic indicators and beyond in clini- cal practice",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 070",
+      "title": "Real-world evidence for non-insulin therapies: clinical practice insights",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 071",
+      "title": "Bench to bedside: incretin research across species",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 072",
+      "title": "Next-generation therapeutics: novel approaches to diabetes and obesity",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 073",
+      "title": "The GLP-1 portfolio: diverse formulations for expanding clini- cal applications",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 074",
+      "title": "In (hospital) bed with diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 075",
+      "title": "It’s all personal",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 076",
+      "title": "How to have a happy life in a love/hate triangle of diabetes + pregnancy + CGM",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 077",
+      "title": "Hi Hypo :) I would like to know you better",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 078",
+      "title": "Everyone needs AID",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 079",
+      "title": "Mix and inject",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 080",
+      "title": "K like ketones",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 081",
+      "title": "Hi Hybrid :) how are you today?",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 082",
+      "title": "Now let’s count to seven, ready?",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 083",
+      "title": "More AID needed",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 084",
+      "title": "Predicting a smart, bright and intelligent future for diabetes care",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 085",
+      "title": "It’s getting complicated",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 086",
+      "title": "\"Don’t leave me alone\", insulin said",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 087",
+      "title": "CGM: replacing low glucose with low cost",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 088",
+      "title": "Diabetes in cyberspace",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 089",
+      "title": "Doesn’t CGM mean \"Can Get Motivated\"?",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 090",
+      "title": "Prediction and treatment of diabetes-related kidney complications",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 091",
+      "title": "Basic insights in diabetes-related kidney complications",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 092",
+      "title": "Biomarkers in diabetes-related kidney complications",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 093",
+      "title": "Animal and cell culture models of diabetes-related kidney complications",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 094",
+      "title": "New in the treatment of diabetes-related kidney complications",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 095",
+      "title": "Epidemiology of diabetes-related kidney complications",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 096",
+      "title": "Clinical aspects of diabetes during pregnancy",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 097",
+      "title": "Clinical aspects of gestational diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 098",
+      "title": "Gestational diabetes: exciting new data",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 099",
+      "title": "Biomarkers and mechanisms in diabetes and pregnancy",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 100",
+      "title": "Treatment and monitoring of gestational diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 101",
+      "title": "Diagnosis of diabetes-related neuropathy",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 102",
+      "title": "Potential treatments of diabetes-related neuropathy",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 103",
+      "title": "Pathophysiology of diabetes-related neuropathy",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 104",
+      "title": "Advancements in diabetes-related autonomic neuropathy",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 105",
+      "title": "Treatment of diabetes-related retinopathy",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 106",
+      "title": "Pathophysiology of diabetes-related retinopathy",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 107",
+      "title": "Arterial hypertension: more than a risk factor in diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 108",
+      "title": "Pathogenetic mechanisms in diabetes-related foot",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 109",
+      "title": "Diagnosis and treatment of diabetes-related foot",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 110",
+      "title": "Epidemiology and treatment of diabetes-related foot",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 111",
+      "title": "Lipid and non-lipid drugs impacts on lipids, vascular tissues and outcomes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 112",
+      "title": "Novel lipid and lipoprotein insights",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 113",
+      "title": "Endothelial interaction in diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 114",
+      "title": "All things immune",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 115",
+      "title": "Type 1 diabetes and novel CV insights",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 116",
+      "title": "Known and novel biomarkers in cardiometabolic health",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 117",
+      "title": "Heart failure and other CV insights in people with diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 118",
+      "title": "Prediction and management of complications and adverse therapy outcomes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 119",
+      "title": "Type 2 diabetes: muscles, fat, bones",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 120",
+      "title": "Non-obvious (?) complications of type 2 diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 121",
+      "title": "Type 1 diabetes: late and acute complications",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 122",
+      "title": "Cognitive dysfunction on the target === PAGE 3 === S3 Diabetologia (2025) 68 (Suppl 1):S1–S754 1 3",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 123",
+      "title": "Neurological, emotional, cognitive status of people with diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 124",
+      "title": "Neurodegeneration and depression in people with diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 125",
+      "title": "Type 2 diabetes: financial, social considerations, prevention of complications",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 126",
+      "title": "Type 1 diabetes: it is not just about insulin management",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 127",
+      "title": "Cancer, liver and diabetes",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "SO 128",
+      "title": "Biochemical face of cognitive impairment and dementia",
+      "section": "Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "LBA OP 01",
+      "title": "From aching genes to heartache in type 2 diabetes",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "LBA OP 02",
+      "title": "Before and after pregnancy with diabetes",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "LBA OP 03",
+      "title": "Is there a life after GLP-1?",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "LBA OP 04",
+      "title": "The best abstracts with ’semaglutide’ in the title",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "LBA OP 05",
+      "title": "Living with type 1 and without complications",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "LBA OP 06",
+      "title": "Combating complications with combining compounds",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "LBA OP 07",
+      "title": "Food and exercise: the best marriage of convenience",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Oral Presentations"
+    },
+    {
+      "code": "LBA SO 01",
+      "title": "Beyond GLP-1 horizon: oral drugs, dual agonists",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "LBA SO 02",
+      "title": "Thinking big about treating obesity",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "LBA SO 03",
+      "title": "Incredible incretins",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "LBA SO 04",
+      "title": "Putting obesity under microscope",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "LBA SO 05",
+      "title": "Beta cell reserve and resilience: new insights",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "LBA SO 06",
+      "title": "Diabetes-related nephropathy: contemporary approaches to prevention and treatment",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "LBA SO 07",
+      "title": "The Diabetes-Brain Axis: from pathophysiology to protection",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "LBA SO 08",
+      "title": "If type 1 diabetes has any secrets, they can be found here",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    },
+    {
+      "code": "LBA SO 09",
+      "title": "From mastering the scoring to fine-tuning the treatment",
+      "section": "Late-Breaking Abstracts",
+      "subsection": "Index of Short Oral Discussions"
+    }
+  ],
+  "statistics": {
+    "total_sessions": 191,
+    "sessions_by_section": {
+      "Abstracts": {
+        "Index of Oral Presentations": 47,
+        "Index of Short Oral Discussions": 128
+      },
+      "Late-Breaking Abstracts": {
+        "Index of Oral Presentations": 7,
+        "Index of Short Oral Discussions": 9
+      }
+    }
+  }
+}
