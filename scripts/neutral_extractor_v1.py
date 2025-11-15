@@ -364,8 +364,6 @@ def process_single_abstract(
     if semicolon_line_id is not None and semicolon_line_id in all_line_index_map:
         institutions_start_idx = all_line_index_map[semicolon_line_id] + 1
     else:
-        # pas de ';' trouvé : on autorise à démarrer le bloc institutions
-        # dès la première ligne (avant section) qui ressemble à "indice + AUTHOR_FONT"
         institutions_start_idx = 0
 
     in_institution_block = False
@@ -374,12 +372,24 @@ def process_single_abstract(
         lid = all_ordered_line_ids[j]
         line_elems = all_lines[lid]
 
+        # détecter si la ligne est purement header/footer
+        is_header_footer_line = all(
+            (
+                (e.get("element_type") in ("header", "footer"))
+                or e.get("type") != "text"
+                or e.get("element_type") is None  # ex: texte non typé sur la même ligne
+            )
+            for e in line_elems
+        ) and any(
+            e.get("element_type") in ("header", "footer")
+            for e in line_elems
+        )
+
         # arrêt sur première section (sauf si on n'a jamais démarré le bloc)
         if has_section_label(line_elems):
             if in_institution_block:
                 break
             else:
-                # si on n'a pas encore d'institutions, on arrête aussi :
                 break
 
         # si on a une limite de section connue et qu'on la dépasse, on ne traite plus
@@ -418,8 +428,12 @@ def process_single_abstract(
         if not in_institution_block:
             continue
 
-        # 2.c Bloc institutions déjà démarré : toutes les lignes avant section
-        #     avec AUTHOR_FONT deviennent des institutions (même sans indice)
+        # 2.c Bloc institutions déjà démarré :
+        #     - si header/footer : on ignore et on continue le bloc
+        if is_header_footer_line:
+            continue
+
+        #     - si ligne avec AUTHOR_FONT : institutions (même sans indice)
         if has_author_font:
             for e in text_elems_sorted:
                 if (
@@ -431,7 +445,6 @@ def process_single_abstract(
             continue
 
         # 2.d Ligne sans AUTHOR_FONT dans un bloc institutions => fin probable
-        #     (changement de nature de contenu)
         if in_institution_block:
             break
 
