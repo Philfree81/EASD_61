@@ -360,40 +360,20 @@ def process_single_abstract(
             first_section_global_idx = idx
             break
 
-    # 2) déterminer où commence la fenêtre d'institutions
+    # 2) déterminer où commence la recherche d'institutions
     if semicolon_line_id is not None and semicolon_line_id in all_line_index_map:
-        institutions_start_idx = all_line_index_map[semicolon_line_id] + 1
+        search_start_idx = all_line_index_map[semicolon_line_id] + 1
     else:
-        institutions_start_idx = 0
+        search_start_idx = 0
 
-    in_institution_block = False
-
-    for j in range(institutions_start_idx, len(all_ordered_line_ids)):
+    # 3) trouver la première ligne "forte" : indice + AUTHOR_FONT
+    start_instit_idx: Optional[int] = None
+    for j in range(search_start_idx, len(all_ordered_line_ids)):
         lid = all_ordered_line_ids[j]
         line_elems = all_lines[lid]
 
-        # détecter si la ligne est purement header/footer
-        is_header_footer_line = all(
-            (
-                (e.get("element_type") in ("header", "footer"))
-                or e.get("type") != "text"
-                or e.get("element_type") is None  # ex: texte non typé sur la même ligne
-            )
-            for e in line_elems
-        ) and any(
-            e.get("element_type") in ("header", "footer")
-            for e in line_elems
-        )
-
-        # arrêt sur première section (sauf si on n'a jamais démarré le bloc)
+        # si on tombe sur une section avant d'avoir trouvé d'institution, on arrête
         if has_section_label(line_elems):
-            if in_institution_block:
-                break
-            else:
-                break
-
-        # si on a une limite de section connue et qu'on la dépasse, on ne traite plus
-        if first_section_global_idx is not None and j >= first_section_global_idx and in_institution_block:
             break
 
         text_elems_sorted = sorted(
@@ -401,9 +381,6 @@ def process_single_abstract(
             key=lambda e: e.get("position", {}).get("x", 0.0),
         )
         if not text_elems_sorted:
-            if in_institution_block:
-                # ligne vide après institutions => on arrête
-                break
             continue
 
         has_indice = any(e.get("element_type") == "indice" for e in text_elems_sorted)
@@ -412,41 +389,47 @@ def process_single_abstract(
             for e in text_elems_sorted
         )
 
-        # 2.a Démarrage "robuste" : ligne avec indice + AUTHOR_FONT
-        if has_indice and has_author_font and not in_institution_block:
-            in_institution_block = True
-            for e in text_elems_sorted:
-                if (
-                    e.get("type") == "text"
-                    and e.get("signature") == AUTHOR_FONT
-                    and e.get("element_type") is None
-                ):
-                    e["element_type"] = "institution"
-            continue
-
-        # 2.b Si on n'a pas encore démarré et pas le pattern fort, on saute
-        if not in_institution_block:
-            continue
-
-        # 2.c Bloc institutions déjà démarré :
-        #     - si header/footer : on ignore et on continue le bloc
-        if is_header_footer_line:
-            continue
-
-        #     - si ligne avec AUTHOR_FONT : institutions (même sans indice)
-        if has_author_font:
-            for e in text_elems_sorted:
-                if (
-                    e.get("type") == "text"
-                    and e.get("signature") == AUTHOR_FONT
-                    and e.get("element_type") is None
-                ):
-                    e["element_type"] = "institution"
-            continue
-
-        # 2.d Ligne sans AUTHOR_FONT dans un bloc institutions => fin probable
-        if in_institution_block:
+        if has_indice and has_author_font:
+            start_instit_idx = j
             break
+
+    # si aucune ligne de ce type trouvée, pas d'institutions à typer
+    if start_instit_idx is not None:
+        # 4) déterminer la fin du bloc institutions
+        if first_section_global_idx is not None and first_section_global_idx > start_instit_idx:
+            end_instit_idx = first_section_global_idx - 1
+        else:
+            end_instit_idx = len(all_ordered_line_ids) - 1
+
+        # 5) dans [start_instit_idx, end_instit_idx], toute ligne avec AUTHOR_FONT => institution
+        for j in range(start_instit_idx, end_instit_idx + 1):
+            lid = all_ordered_line_ids[j]
+            line_elems = all_lines[lid]
+
+            if has_section_label(line_elems):
+                break
+
+            text_elems_sorted = sorted(
+                [e for e in line_elems if e.get("type") == "text"],
+                key=lambda e: e.get("position", {}).get("x", 0.0),
+            )
+            if not text_elems_sorted:
+                continue
+
+            has_author_font = any(
+                e.get("signature") == AUTHOR_FONT and e.get("type") == "text"
+                for e in text_elems_sorted
+            )
+            if not has_author_font:
+                continue
+
+            for e in text_elems_sorted:
+                if (
+                    e.get("type") == "text"
+                    and e.get("signature") == AUTHOR_FONT
+                    and e.get("element_type") is None
+                ):
+                    e["element_type"] = "institution"
 
     # -----------------------------------------------------------------------
     # Sections (sections classiques + supported_by + clinical_trial + disclosure)
