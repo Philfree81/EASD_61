@@ -4,7 +4,7 @@ Module d'Extraction Neutre (Réutilisable)
 Extrait les éléments PDF et les annote avec signatures typographiques pures
 Sans interprétation sémantique
 
-Version 1.4 : Ajout gestion subscripts (indices bas) + superscripts (exposants hauts)
+Version 1.5 : Détection Unicode subscripts/superscripts (₀₁₂ ⁰¹²) + ajustement tolérance
 """
 
 import json
@@ -360,7 +360,7 @@ class NeutralExtractor:
                 "source": pdf_path,
                 "extraction_date": datetime.now().isoformat(),
                 "extractor": "neutral_extractor",
-                "version": "1.4",
+                "version": "1.5",
                 "total_elements": len(elements),
                 "total_texts": len(text_elements_final),
                 "total_images": total_images,
@@ -495,17 +495,74 @@ class NeutralExtractor:
         
         return merged
     
+    def _is_script_element(self, elem: Dict[str, Any]) -> tuple:
+        """
+        Détermine si un élément est un script (super ou subscript)
+        
+        Détecte les scripts par :
+        1. Caractères Unicode dédiés (subscripts/superscripts natifs)
+        2. Taille/hauteur réduites (scripts typographiques classiques)
+        
+        Args:
+            elem: Élément à analyser
+            
+        Returns:
+            (is_script: bool, script_type: str or None)
+            script_type: 'super', 'sub', or None (déterminé plus tard par position Y)
+        """
+        text = elem.get("text", "")
+        h = elem["position"]["h"]
+        
+        # Parse size from signature
+        sig_parts = elem.get("signature", "_0_").split("_")
+        size = float(sig_parts[1]) if len(sig_parts) > 1 else 0
+        
+        # Unicode subscripts (₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓ etc.)
+        SUBSCRIPT_CHARS = (
+            '\u2080\u2081\u2082\u2083\u2084'  # ₀₁₂₃₄
+            '\u2085\u2086\u2087\u2088\u2089'  # ₅₆₇₈₉
+            '\u208a\u208b\u208c\u208d\u208e'  # ₊₋₌₍₎
+            '\u2090\u2091\u2092\u2093\u2094'  # ₐₑₒₓₔ
+            '\u2095\u2096\u2097\u2098\u2099'  # ₕₖₗₘₙ
+            '\u209a\u209b\u209c'              # ₚₛₜ
+        )
+        
+        # Unicode superscripts (⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿⁱ)
+        SUPERSCRIPT_CHARS = (
+            '\u2070\u00b9\u00b2\u00b3'        # ⁰¹²³
+            '\u2074\u2075\u2076\u2077'        # ⁴⁵⁶⁷
+            '\u2078\u2079\u207a\u207b'        # ⁸⁹⁺⁻
+            '\u207c\u207d\u207e\u207f'        # ⁼⁽⁾ⁿ
+            '\u2071'                          # ⁱ
+        )
+        
+        # Méthode 1 : Détection Unicode (prioritaire)
+        if any(char in SUBSCRIPT_CHARS for char in text):
+            return (True, 'sub')
+        
+        if any(char in SUPERSCRIPT_CHARS for char in text):
+            return (True, 'super')
+        
+        # Méthode 2 : Détection par taille/hauteur (classique)
+        if h < 9.0 or size < 7.0:
+            # Type déterminé plus tard par position Y
+            return (True, None)
+        
+        return (False, None)
+    
     def _attach_scripts_to_lines(self, elements: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Rattache les scripts (superscripts et subscripts) à leur ligne de texte
         
-        Gère deux types de scripts :
-        - SUPERSCRIPTS (exposants) : Y plus petit (~0.5px plus haut) - ex: références¹
-        - SUBSCRIPTS (indices) : Y plus grand (~4px plus bas) - ex: HbA₁c
+        Gère trois types de scripts :
+        - SUPERSCRIPTS typographiques : Y plus petit (~0.5px plus haut) - ex: références¹
+        - SUBSCRIPTS typographiques : Y plus grand (~4px plus bas) - ex: HbA₁c
+        - SCRIPTS Unicode : Caractères dédiés (₂, ², etc.) - détectés par contenu
         
         Cette méthode ajuste leur Y pour qu'ils soient groupés avec leur ligne de texte.
         
         Critères de détection :
+        - Caractères Unicode subscript/superscript (₀₁₂ ou ⁰¹²)
         - Hauteur < 9px OU taille de police < 7.0
         
         Args:
@@ -542,13 +599,13 @@ class NeutralExtractor:
                     non_text.append(elem)
                     continue
                 
-                h = elem["position"]["h"]
-                # Parse size from signature (format: "Font_Size_Flags")
-                sig_parts = elem.get("signature", "_0_").split("_")
-                size = float(sig_parts[1]) if len(sig_parts) > 1 else 0
+                # Détection script (taille/hauteur OU Unicode)
+                is_script, script_type_hint = self._is_script_element(elem)
                 
-                # Détection script : petite hauteur OU petite taille
-                if h < 9.0 or size < 7.0:
+                if is_script:
+                    # Marquer le type si déjà connu (Unicode)
+                    if script_type_hint:
+                        elem["_script_type_hint"] = script_type_hint
                     small_elements.append(elem)
                 else:
                     normal_text.append(elem)
@@ -558,10 +615,13 @@ class NeutralExtractor:
                 small_y = small["position"]["y"]
                 small_x = small["position"]["x"]
                 
+                # Récupérer le hint de type si disponible (Unicode)
+                type_hint = small.get("_script_type_hint")
+                
                 # Chercher le texte le plus proche
                 closest = None
                 min_distance = float('inf')
-                script_type = None  # 'super' ou 'sub'
+                script_type = type_hint  # Utiliser le hint si déjà connu
                 
                 for text_elem in normal_text:
                     text_y = text_elem["position"]["y"]
@@ -575,23 +635,35 @@ class NeutralExtractor:
                     # Différence Y (signée)
                     y_diff = text_y - small_y
                     
-                    # Cas 1 : SUPERSCRIPT (small_y < text_y, donc y_diff > 0)
-                    # Le petit élément est au-DESSUS du texte
-                    if 0.3 <= y_diff <= 2.0:
-                        distance = y_diff
-                        if distance < min_distance:
-                            min_distance = distance
-                            closest = text_elem
-                            script_type = 'super'
-                    
-                    # Cas 2 : SUBSCRIPT (small_y > text_y, donc y_diff < 0)
-                    # Le petit élément est en-DESSOUS du texte
-                    elif -6.0 <= y_diff <= -2.0:
+                    # Si le type est déjà connu (Unicode), chercher le texte proche avec tolérance élargie
+                    if type_hint:
                         distance = abs(y_diff)
-                        if distance < min_distance:
+                        # Tolérance élargie pour Unicode (±8px au lieu de ±2px)
+                        # Car les caractères Unicode peuvent avoir Y très proche du texte normal
+                        if distance < 8.0 and distance < min_distance:
                             min_distance = distance
                             closest = text_elem
-                            script_type = 'sub'
+                            # script_type déjà défini par type_hint
+                    
+                    # Sinon, détection classique par position Y
+                    else:
+                        # Cas 1 : SUPERSCRIPT (small_y < text_y, donc y_diff > 0)
+                        # Le petit élément est au-DESSUS du texte
+                        if 0.3 <= y_diff <= 2.0:
+                            distance = y_diff
+                            if distance < min_distance:
+                                min_distance = distance
+                                closest = text_elem
+                                script_type = 'super'
+                        
+                        # Cas 2 : SUBSCRIPT (small_y > text_y, donc y_diff < 0)
+                        # Le petit élément est en-DESSOUS du texte
+                        elif -6.0 <= y_diff <= -2.0:
+                            distance = abs(y_diff)
+                            if distance < min_distance:
+                                min_distance = distance
+                                closest = text_elem
+                                script_type = 'sub'
                 
                 # Ajuster Y si ligne trouvée
                 if closest and script_type:
