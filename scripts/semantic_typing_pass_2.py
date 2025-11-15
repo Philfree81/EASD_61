@@ -17,8 +17,8 @@ Sortie :
         * author_title
         * author
         * institution
-        * section_*_text
-        * abstract_text (texte d'abstract entre/à l'intérieur des sections)
+        * section_*_text (background, methods, results, conclusion, disclosure)
+        * abstract_text (texte résiduel dans les zones de sections)
 """
 
 from __future__ import annotations
@@ -44,11 +44,13 @@ ABSTRACT_TEXT_SIGNATURES = {
     "SymbolMT_8.5_0",
 }
 
+# ⚠️ On ajoute ici section_disclosure pour générer section_disclosure_text
 SECTION_TYPES = {
     "section_background_and_aims",
     "section_materials_and_methods",
     "section_results",
     "section_conclusion",
+    "section_disclosure",
 }
 
 # -----------------------------------------------------------------------------
@@ -108,7 +110,7 @@ def concat_line_text(line_elems: List[Dict[str, Any]]) -> str:
 
 def has_section_label(line_elems: List[Dict[str, Any]]) -> bool:
     """
-    True si la ligne contient un label de section (background, results, etc.).
+    True si la ligne contient un label de section (background, results, disclosure, etc.).
     """
     return any(e.get("element_type") in SECTION_TYPES for e in line_elems)
 
@@ -166,8 +168,8 @@ def process_single_abstract(
         - author_title
         - author
         - institution
-        - section_*_text
-        - abstract_text
+        - section_*_text (inclut section_disclosure_text)
+        - abstract_text (résiduel dans les zones de sections)
     """
 
     # 1) Marquer tous les éléments du span avec abstract_id
@@ -277,16 +279,14 @@ def process_single_abstract(
                 if looks_like_authors:
                     author_title_line_id = lid
 
-    # 2.3. Fallback : si on n'a pas trouvé d'auteur_titre via la règle "même police",
-    #      on revient à l'ancienne logique : première ligne contenant AUTHOR_FONT.
+    # 2.3. Fallback : première ligne contenant AUTHOR_FONT comme pivot
     if author_title_line_id is None:
         for info in header_infos:
             if info["has_author_font"]:
                 author_title_line_id = info["lid"]
                 break
 
-        # Si on a trouvé un pivot via AUTHOR_FONT mais qu'on n'a pas encore rempli
-        # les candidats titre, on reconstitue title_candidates_by_lid
+        # Si pivot trouvé mais pas de candidats titre, on les reconstitue
         if author_title_line_id is not None and not title_candidates_by_lid:
             for info in header_infos:
                 lid = info["lid"]
@@ -322,8 +322,7 @@ def process_single_abstract(
                 e["element_type"] = "author_title"
 
     # -------------------------------------------------------------------------
-    # 3) Auteurs supplémentaires (lignes entre author_title et ligne à ';')
-    #    + Institutions (démarrent après un ';', ligne suivante, avec indice)
+    # 3) Auteurs supplémentaires + Institutions
     # -------------------------------------------------------------------------
 
     if author_title_line_id is not None:
@@ -344,8 +343,7 @@ def process_single_abstract(
                 semicolon_line_idx = j
                 break
 
-        # 3.2. Si on trouve un ';' -> lignes auteurs supplémentaires entre
-        #      author_title et cette ligne incluse (si différente)
+        # 3.2. Lignes auteurs supplémentaires
         if semicolon_line_idx is not None:
             for j in range(idx_author_line + 1, semicolon_line_idx + 1):
                 lid = ordered_line_ids[j]
@@ -362,7 +360,7 @@ def process_single_abstract(
                     ):
                         e["element_type"] = "author"
 
-            # 3.3. Institutions : démarrent sur la ligne suivant celle avec ';'
+            # 3.3. Institutions : lignes suivant celle avec ';'
             institutions_start_idx = semicolon_line_idx + 1
 
             for j in range(institutions_start_idx, len(ordered_line_ids)):
@@ -393,6 +391,7 @@ def process_single_abstract(
 
     # -------------------------------------------------------------------------
     # 4) Texte des sections : section_*_text + abstract_text
+    #    Inclut section_disclosure_text pour la section_disclosure
     # -------------------------------------------------------------------------
 
     section_labels = [
@@ -415,6 +414,9 @@ def process_single_abstract(
                 next_idx = id_to_index.get(next_label["id"], span_end + 1)
                 section_end_idx = min(next_idx - 1, span_end)
             else:
+                # ⚠️ Dernière section (souvent disclosure) :
+                #     va jusqu'à la fin de l'abstract (span_end),
+                #     donc "jusqu'au prochain code/session".
                 section_end_idx = span_end
 
             # 4.1 Texte de section en AUTHOR_FONT -> section_*_text
@@ -435,10 +437,10 @@ def process_single_abstract(
 
             for e in section_text_elems:
                 if e.get("element_type") is None:
+                    # ex : section_background_and_aims -> section_background_and_aims_text
                     e["element_type"] = f"{label_type}_text"
 
-            # 4.2 Tout le texte restant dans cette zone, avec une signature
-            #     de corps/italique/symbole, devient abstract_text
+            # 4.2 Texte résiduel (corps/italique/symbole) -> abstract_text
             for idx in range(label_idx + 1, section_end_idx + 1):
                 e = elements[idx]
                 if not isinstance(e, dict):
@@ -453,8 +455,8 @@ def process_single_abstract(
                     continue
                 e["element_type"] = "abstract_text"
 
-    # S'il n'y a aucune section, on pourrait, si besoin, typer tout le corps en
-    # abstract_text, mais tu ne l'as pas demandé explicitement pour l'instant.
+    # S'il n'y a aucune section, on pourrait typer tout le corps en abstract_text
+    # mais ce comportement n'est pas activé ici pour rester minimaliste.
 
 
 # --- Pipeline global sur le fichier ------------------------------------------
