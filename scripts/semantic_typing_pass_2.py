@@ -18,7 +18,8 @@ Sortie :
         * author
         * institution
         * section_*_text
-        * section_disclosure_text
+        * section_supported_by / section_supported_by_text
+        * section_disclosure / section_disclosure_text
         * abstract_text
         * image / table / image_text
 """
@@ -34,32 +35,28 @@ from typing import Any, Dict, List, Optional, Tuple
 # Constantes de signatures
 # ---------------------------------------------------------------------------
 
-# Police(s) de titre
 TITLE_SIGNATURES = {
     "STIX-Bold_8.5_20",
 }
 
-# Police principale du corps de texte des abstracts / auteurs / institutions
 AUTHOR_FONT = "STIX-Regular_8.5_4"
 
-# Polices considérées comme texte de corps dans les sections
 ABSTRACT_TEXT_SIGNATURES = {
     "STIX-Regular_8.5_4",
     "STIX-BoldItalic_8.5_22",
     "SymbolMT_8.5_0",
 }
 
-# Polices utilisées pour les légendes / texte d'image
 IMAGE_TEXT_SIGNATURES = {
     "STIX-Italic_8.5_6",
 }
 
-# Types de sections reconnues (labels créés en pass1)
 SECTION_TYPES = {
     "section_background_and_aims",
     "section_materials_and_methods",
     "section_results",
     "section_conclusion",
+    "section_supported_by",   # nouveau
     "section_disclosure",
 }
 
@@ -305,8 +302,7 @@ def process_single_abstract(
                     ):
                         e["element_type"] = "author"
 
-        # rattrapage : tout AUTHOR_FONT non typé dans la zone auteurs
-        if semicolon_line_idx is not None:
+            # rattrapage
             for j in range(start_idx, semicolon_line_idx + 1):
                 lid = ordered_line_ids[j]
                 line_elems = lines[lid]
@@ -319,6 +315,19 @@ def process_single_abstract(
                         and e.get("signature") == AUTHOR_FONT
                     ):
                         e["element_type"] = "author"
+
+    # -----------------------------------------------------------------------
+    # Marquage des "Supported by:" comme section_supported_by
+    # -----------------------------------------------------------------------
+    for e in span_elems:
+        if (
+            e.get("type") == "text"
+            and e.get("element_type") is None
+            and e.get("signature") in IMAGE_TEXT_SIGNATURES
+        ):
+            txt = (e.get("text") or "").strip()
+            if txt.lower().startswith("supported by:"):
+                e["element_type"] = "section_supported_by"
 
     # -----------------------------------------------------------------------
     # Institutions
@@ -365,7 +374,7 @@ def process_single_abstract(
             break
 
     # -----------------------------------------------------------------------
-    # Sections (incl. disclosure)
+    # Sections (incl. supported_by & disclosure)
     # -----------------------------------------------------------------------
     section_labels = [e for e in span_elems if e.get("element_type") in SECTION_TYPES]
     section_labels.sort(key=lambda e: e.get("id", 0))
@@ -407,6 +416,21 @@ def process_single_abstract(
                     e["element_type"] = "section_disclosure_text"
                 continue
 
+            if label_type == "section_supported_by":
+                for idx in range(label_idx + 1, section_end_idx + 1):
+                    e = elements[idx]
+                    if not isinstance(e, dict):
+                        continue
+                    if e.get("abstract_id") != abstract_id:
+                        continue
+                    if e.get("type") != "text":
+                        continue
+                    if e.get("element_type") is not None:
+                        continue
+                    e["element_type"] = "section_supported_by_text"
+                continue
+
+            # autres sections : section_*_text + abstract_text
             section_text_indices: List[int] = []
             for idx in range(label_idx + 1, section_end_idx + 1):
                 e = elements[idx]
@@ -452,7 +476,7 @@ def process_single_abstract(
             if e.get("element_type") is None:
                 e["element_type"] = "table"
 
-    # Texte de légende sous les images
+    # texte de légende
     for img in images:
         page = img.get("page", 0)
         pos = img.get("position", {})
@@ -461,7 +485,8 @@ def process_single_abstract(
         y_img = pos.get("y", 0.0)
         h_img = pos.get("h", 0.0)
         bottom = y_img + h_img
-        margin = 40.0  # marge verticale sous l'image
+        margin = 60.0
+        eps = 2.0
 
         for e in span_elems:
             if e.get("type") != "text":
@@ -475,7 +500,7 @@ def process_single_abstract(
             epos = e.get("position", {})
             y = epos.get("y", 0.0)
             x = epos.get("x", 0.0)
-            if not (bottom <= y <= bottom + margin):
+            if not (bottom - eps <= y <= bottom + margin + eps):
                 continue
             if not (x_img - 5 <= x <= x_img + w_img + 5):
                 continue
@@ -504,7 +529,7 @@ def process_file(input_path: Path, output_path: Path) -> None:
     if not elements:
         raise ValueError("Aucun élément trouvé dans le JSON d'entrée.")
 
-    # Tri global géométrique
+    # tri géométrique global
     elements.sort(
         key=lambda e: element_global_key(e) if isinstance(e, dict) else (0, 0, 0.0, 0)
     )
