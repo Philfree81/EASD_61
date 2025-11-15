@@ -5,20 +5,21 @@ Passe 2 : typage contextuel des éléments d'un abstract.
 
 Entrée :
     - JSON produit par la passe 1 (semantic_typing_pass_1.py)
-      contenant déjà :
+      contenant déjà notamment :
         * code_abstract
-        * section_* (labels)
+        * section_* (labels, y compris section_disclosure)
         * header, footer, indice, symbol_text, etc.
 
 Sortie :
-    - même JSON, avec :
-        * abstract_id ajouté aux éléments appartenant à un abstract
+    - même JSON, avec pour chaque élément d'abstract :
+        * abstract_id
         * abstract_title
         * author_title
         * author
         * institution
         * section_*_text (background, methods, results, conclusion, disclosure)
-        * abstract_text (texte résiduel dans les zones de sections)
+        * abstract_text (texte "résiduel" dans les zones de sections)
+        * image / table pour les blocs non textuels
 """
 
 from __future__ import annotations
@@ -28,32 +29,35 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-# --- Constantes de signatures / types connus ----------------------------------
+# ---------------------------------------------------------------------------
+# Constantes de signatures
+# ---------------------------------------------------------------------------
 
+# Police(s) de titre
 TITLE_SIGNATURES = {
-    "STIX-Bold_8.5_20",   # titre d'abstract typique
+    "STIX-Bold_8.5_20",
 }
 
-# Police "corps" principale (auteurs, sections, etc.)
+# Police principale du corps de texte des abstracts / auteurs / institutions
 AUTHOR_FONT = "STIX-Regular_8.5_4"
 
-# Polices à considérer comme texte d'abstract (entre/à l'intérieur des sections)
+# Polices considérées comme texte de corps dans les sections
 ABSTRACT_TEXT_SIGNATURES = {
     "STIX-Regular_8.5_4",
     "STIX-BoldItalic_8.5_22",
     "SymbolMT_8.5_0",
 }
 
-# ⚠️ On ajoute ici section_disclosure pour générer section_disclosure_text
+# Types de sections reconnues (labels créés en pass1)
 SECTION_TYPES = {
     "section_background_and_aims",
     "section_materials_and_methods",
     "section_results",
     "section_conclusion",
-    "section_disclosure",
+    "section_disclosure",  # ajout pour la disclosure
 }
 
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 
 def group_by_line(elements: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
@@ -90,11 +94,14 @@ def get_index_by_id(elements: List[Dict[str, Any]]) -> Dict[int, int]:
     """
     Mapping id -> index dans la liste elements.
     """
-    return {
-        e["id"]: idx
-        for idx, e in enumerate(elements)
-        if isinstance(e, dict) and "id" in e
-    }
+    mapping: Dict[int, int] = {}
+    for idx, e in enumerate(elements):
+        if not isinstance(e, dict):
+            continue
+        eid = e.get("id")
+        if isinstance(eid, int):
+            mapping[eid] = idx
+    return mapping
 
 
 def concat_line_text(line_elems: List[Dict[str, Any]]) -> str:
@@ -104,7 +111,9 @@ def concat_line_text(line_elems: List[Dict[str, Any]]) -> str:
     parts: List[str] = []
     for e in line_elems:
         if e.get("type") == "text":
-            parts.append(e.get("text", ""))
+            txt = e.get("text", "")
+            if txt:
+                parts.append(txt)
     return " ".join(parts).strip()
 
 
@@ -112,15 +121,18 @@ def has_section_label(line_elems: List[Dict[str, Any]]) -> bool:
     """
     True si la ligne contient un label de section (background, results, disclosure, etc.).
     """
-    return any(e.get("element_type") in SECTION_TYPES for e in line_elems)
+    for e in line_elems:
+        if e.get("element_type") in SECTION_TYPES:
+            return True
+    return False
 
 
-# --- Étape 1 : détermination des spans d'abstracts ---------------------------
+# ---------------------------------------------------------------------------
+# Détection des spans d'abstracts
+# ---------------------------------------------------------------------------
 
 
-def compute_abstract_spans(
-    elements: List[Dict[str, Any]]
-) -> List[Tuple[Dict[str, Any], int, int]]:
+def compute_abstract_spans(elements: List[Dict[str, Any]]) -> List[Tuple[Dict[str, Any], int, int]]:
     """
     Identifie les spans [start_idx, end_idx] correspondant à chaque abstract,
     à partir des éléments de type code_abstract.
@@ -151,7 +163,9 @@ def compute_abstract_spans(
     return spans
 
 
-# --- Étape 2 : typage contextuel pour un abstract donné ----------------------
+# ---------------------------------------------------------------------------
+# Traitement d'un abstract
+# ---------------------------------------------------------------------------
 
 
 def process_single_abstract(
@@ -168,40 +182,40 @@ def process_single_abstract(
         - author_title
         - author
         - institution
-        - section_*_text (inclut section_disclosure_text)
-        - abstract_text (résiduel dans les zones de sections)
+        - section_*_text
+        - abstract_text
+        - image / table
     """
 
     # 1) Marquer tous les éléments du span avec abstract_id
     for i in range(span_start, span_end + 1):
         e = elements[i]
-        if not isinstance(e, dict):
-            continue
-        e["abstract_id"] = abstract_id
+        if isinstance(e, dict):
+            e["abstract_id"] = abstract_id
 
-    # Quelques raccourcis
-    span_elems = [
-        e for e in elements[span_start: span_end + 1]
-        if isinstance(e, dict)
-    ]
+    # Sous-liste utile
+    span_elems = [e for e in elements[span_start: span_end + 1] if isinstance(e, dict)]
 
-    # La colonne de l'abstract (left/right) est prise à partir du code_abstract
+    # Colonne (left/right) de l'abstract
     code_column = code_elem.get("line_position")
 
-    # On se limite à la même colonne que le code, et uniquement aux éléments après le code
-    column_elems_after_code = []
+    # On ne garde que les éléments de la même colonne, après le code_abstract
+    column_elems_after_code: List[Dict[str, Any]] = []
+    code_page = code_elem.get("page", 0)
+    code_id = code_elem.get("id", -1)
+
     for e in span_elems:
         if e.get("line_position") != code_column:
             continue
         page = e.get("page", 0)
-        code_page = code_elem.get("page", 0)
-        if page > code_page or (page == code_page and e.get("id", 0) > code_elem.get("id", 0)):
+        eid = e.get("id", -1)
+        if page > code_page or (page == code_page and eid > code_id):
             column_elems_after_code.append(e)
 
     if not column_elems_after_code:
         return
 
-    # Regrouper par ligne
+    # Regroupement par ligne
     lines = group_by_line(column_elems_after_code)
     if not lines:
         return
@@ -209,14 +223,9 @@ def process_single_abstract(
     ordered_line_ids = sort_line_ids(lines)
     line_index_map = {lid: idx for idx, lid in enumerate(ordered_line_ids)}
 
-    # -------------------------------------------------------------------------
-    # 2) Détection du abstract_title + author_title
-    #    - Cas 1 : l'auteur_titre partage la même police que le titre
-    #              et est suivi d'une ligne dans une autre police
-    #    - Cas 2 : fallback sur l'ancienne heuristique (pivot AUTHOR_FONT)
-    # -------------------------------------------------------------------------
-
-    # 2.1. Construire la liste des lignes "en-tête" avant la première section
+    # -----------------------------------------------------------------------
+    # 2) Détection des lignes d'en-tête (avant la 1ère section)
+    # -----------------------------------------------------------------------
     header_line_ids: List[str] = []
     for lid in ordered_line_ids:
         line_elems = lines[lid]
@@ -227,7 +236,7 @@ def process_single_abstract(
     if not header_line_ids:
         return
 
-    # Infos pré-calculées par ligne
+    # Pré-calcul d'infos par ligne d'en-tête
     header_infos: List[Dict[str, Any]] = []
     for lid in header_line_ids:
         line_elems = lines[lid]
@@ -236,7 +245,6 @@ def process_single_abstract(
         has_title_font = any(sig in TITLE_SIGNATURES for sig in signatures)
         has_author_font = any(sig == AUTHOR_FONT for sig in signatures)
         line_start_flag = any(e.get("line_start") for e in line_elems)
-
         header_infos.append(
             {
                 "lid": lid,
@@ -249,61 +257,46 @@ def process_single_abstract(
             }
         )
 
+    # -----------------------------------------------------------------------
+    # 3) abstract_title et author_title
+    # -----------------------------------------------------------------------
     title_candidates_by_lid: Dict[str, List[Dict[str, Any]]] = {}
     author_title_line_id: Optional[str] = None
 
-    # 2.2. Heuristique principale : auteur_titre en même police que le titre
+    # 3.1 bloc de lignes en police titre ; l'auteur_titre est la dernière de ce bloc
     for idx, info in enumerate(header_infos):
         lid = info["lid"]
 
-        # On ne considère que le bloc de lignes avec police de titre, contigu à partir du haut
         if not info["has_title_font"]:
             break
 
-        # Enregistrer les éléments titre de cette ligne comme candidats
+        # candidats "abstract_title"
         for e in info["text_elems"]:
-            if (
-                e.get("element_type") is None
-                and e.get("signature") in TITLE_SIGNATURES
-            ):
+            if e.get("element_type") is None and e.get("signature") in TITLE_SIGNATURES:
                 title_candidates_by_lid.setdefault(lid, []).append(e)
 
-        # Tester si cette ligne peut être l'auteur_titre :
-        #  - elle démarre la ligne
-        #  - la ligne suivante (si elle existe) n'est plus en police titre
-        #  - et contient idéalement la police auteurs (AUTHOR_FONT)
+        # auteur_titre : démarre la ligne, suivie d'une ligne non-titre avec AUTHOR_FONT
         if author_title_line_id is None and info["line_start"] and idx + 1 < len(header_infos):
             next_info = header_infos[idx + 1]
-            if not next_info["has_title_font"]:
-                looks_like_authors = next_info["has_author_font"]
-                if looks_like_authors:
-                    author_title_line_id = lid
+            if not next_info["has_title_font"] and next_info["has_author_font"]:
+                author_title_line_id = lid
 
-    # 2.3. Fallback : première ligne contenant AUTHOR_FONT comme pivot
+    # 3.2 Fallback : s'il n'y a pas de bloc "même police", on prend la 1ère ligne avec AUTHOR_FONT
     if author_title_line_id is None:
         for info in header_infos:
             if info["has_author_font"]:
                 author_title_line_id = info["lid"]
                 break
-
-        # Si pivot trouvé mais pas de candidats titre, on les reconstitue
         if author_title_line_id is not None and not title_candidates_by_lid:
             for info in header_infos:
                 lid = info["lid"]
-                if has_section_label(info["line_elems"]):
-                    break
                 for e in info["text_elems"]:
-                    if (
-                        e.get("element_type") is None
-                        and e.get("signature") in TITLE_SIGNATURES
-                    ):
+                    if e.get("element_type") is None and e.get("signature") in TITLE_SIGNATURES:
                         title_candidates_by_lid.setdefault(lid, []).append(e)
                 if info["has_author_font"]:
                     break
 
-    # 2.4. Application des types :
-    #      - toutes les lignes candidates titre, sauf author_title_line_id → abstract_title
-    #      - la ligne author_title_line_id → author_title
+    # 3.3 marquage des titres
     for lid, elems in title_candidates_by_lid.items():
         if lid == author_title_line_id:
             continue
@@ -312,8 +305,7 @@ def process_single_abstract(
                 e["element_type"] = "abstract_title"
 
     if author_title_line_id is not None:
-        author_line_elems = lines[author_title_line_id]
-        for e in author_line_elems:
+        for e in lines[author_title_line_id]:
             if (
                 e.get("type") == "text"
                 and e.get("element_type") is None
@@ -321,37 +313,29 @@ def process_single_abstract(
             ):
                 e["element_type"] = "author_title"
 
-    # -------------------------------------------------------------------------
-    # 3) Auteurs supplémentaires + Institutions
-    # -------------------------------------------------------------------------
-
+    # -----------------------------------------------------------------------
+    # 4) Auteurs supplémentaires
+    # -----------------------------------------------------------------------
+    semicolon_line_idx: Optional[int] = None
     if author_title_line_id is not None:
-        idx_author_line = line_index_map[author_title_line_id]
-
-        # 3.1. Chercher la première ligne (à partir de author_title) contenant un ';'
-        semicolon_line_idx: Optional[int] = None
-
-        for j in range(idx_author_line, len(ordered_line_ids)):
+        start_idx = line_index_map[author_title_line_id]
+        for j in range(start_idx, len(ordered_line_ids)):
             lid = ordered_line_ids[j]
             line_elems = lines[lid]
-
             if has_section_label(line_elems):
                 break
-
-            line_text = concat_line_text(line_elems)
-            if ";" in line_text:
+            line_txt = concat_line_text(line_elems)
+            if ";" in line_txt:
                 semicolon_line_idx = j
                 break
 
-        # 3.2. Lignes auteurs supplémentaires
         if semicolon_line_idx is not None:
-            for j in range(idx_author_line + 1, semicolon_line_idx + 1):
+            # Lignes d'auteurs entre author_title et la ligne du ';'
+            for j in range(start_idx + 1, semicolon_line_idx + 1):
                 lid = ordered_line_ids[j]
                 line_elems = lines[lid]
-
                 if has_section_label(line_elems):
                     break
-
                 for e in line_elems:
                     if (
                         e.get("type") == "text"
@@ -360,44 +344,73 @@ def process_single_abstract(
                     ):
                         e["element_type"] = "author"
 
-            # 3.3. Institutions : lignes suivant celle avec ';'
-            institutions_start_idx = semicolon_line_idx + 1
+    # Rattrapage : on marque en author tout AUTHOR_FONT non typé dans la zone auteurs
+    if author_title_line_id is not None and semicolon_line_idx is not None:
+        idx_start = line_index_map[author_title_line_id]
+        for j in range(idx_start, semicolon_line_idx + 1):
+            lid = ordered_line_ids[j]
+            line_elems = lines[lid]
+            if has_section_label(line_elems):
+                break
+            for e in line_elems:
+                if (
+                    e.get("type") == "text"
+                    and e.get("element_type") is None
+                    and e.get("signature") == AUTHOR_FONT
+                ):
+                    e["element_type"] = "author"
 
-            for j in range(institutions_start_idx, len(ordered_line_ids)):
-                lid = ordered_line_ids[j]
-                line_elems = lines[lid]
+    # -----------------------------------------------------------------------
+    # 5) Institutions
+    # -----------------------------------------------------------------------
+    if semicolon_line_idx is not None:
+        institutions_start_idx = semicolon_line_idx + 1
+        in_institution_block = False
 
-                if has_section_label(line_elems):
+        for j in range(institutions_start_idx, len(ordered_line_ids)):
+            lid = ordered_line_ids[j]
+            line_elems = lines[lid]
+
+            if has_section_label(line_elems):
+                break
+
+            text_elems_sorted = sorted(
+                [e for e in line_elems if e.get("type") == "text"],
+                key=lambda e: e.get("position", {}).get("x", 0.0),
+            )
+            if not text_elems_sorted:
+                if in_institution_block:
                     break
+                continue
 
-                text_elems_sorted = sorted(
-                    [e for e in line_elems if e.get("type") == "text"],
-                    key=lambda e: e.get("position", {}).get("x", 0.0)
-                )
+            first_text = text_elems_sorted[0]
 
-                if not text_elems_sorted:
-                    break
+            if first_text.get("element_type") == "indice":
+                # Cas standard : indice en début de ligne
+                in_institution_block = True
+                for e in text_elems_sorted:
+                    if e.get("element_type") is None and e.get("type") == "text":
+                        e["element_type"] = "institution"
+                continue
 
-                first_text = text_elems_sorted[0]
+            if in_institution_block:
+                # Ligne de continuation (ex: "USA,")
+                for e in text_elems_sorted:
+                    if (
+                        e.get("element_type") is None
+                        and e.get("type") == "text"
+                        and e.get("signature") == AUTHOR_FONT
+                    ):
+                        e["element_type"] = "institution"
+                continue
 
-                if first_text.get("element_type") == "indice":
-                    for e in text_elems_sorted:
-                        if e.get("element_type") is None and e.get("type") == "text":
-                            e["element_type"] = "institution"
-                    continue
-                else:
-                    break
-        # sinon : pas d'institutions détectées, on laisse tel quel
+            # Hors bloc institutions et sans indice en tête : on s'arrête
+            break
 
-    # -------------------------------------------------------------------------
-    # 4) Texte des sections : section_*_text + abstract_text
-    #    Inclut section_disclosure_text pour la section_disclosure
-    # -------------------------------------------------------------------------
-
-    section_labels = [
-        e for e in span_elems
-        if e.get("element_type") in SECTION_TYPES
-    ]
+    # -----------------------------------------------------------------------
+    # 6) Sections : section_*_text + abstract_text
+    # -----------------------------------------------------------------------
+    section_labels = [e for e in span_elems if e.get("element_type") in SECTION_TYPES]
     section_labels.sort(key=lambda e: e.get("id", 0))
 
     if section_labels:
@@ -405,22 +418,41 @@ def process_single_abstract(
 
         for i, label in enumerate(section_labels):
             label_type = label.get("element_type")
-            label_idx = id_to_index.get(label["id"])
+            label_id = label.get("id")
+            if label_id is None:
+                continue
+            label_idx = id_to_index.get(label_id)
             if label_idx is None:
                 continue
 
             if i < len(section_labels) - 1:
                 next_label = section_labels[i + 1]
-                next_idx = id_to_index.get(next_label["id"], span_end + 1)
-                section_end_idx = min(next_idx - 1, span_end)
+                next_label_id = next_label.get("id")
+                if next_label_id is None:
+                    section_end_idx = span_end
+                else:
+                    next_idx = id_to_index.get(next_label_id, span_end + 1)
+                    section_end_idx = min(next_idx - 1, span_end)
             else:
-                # ⚠️ Dernière section (souvent disclosure) :
-                #     va jusqu'à la fin de l'abstract (span_end),
-                #     donc "jusqu'au prochain code/session".
                 section_end_idx = span_end
 
-            # 4.1 Texte de section en AUTHOR_FONT -> section_*_text
-            section_text_elems: List[Dict[str, Any]] = []
+            if label_type == "section_disclosure":
+                # Disclosure : tout texte non typé dans la zone
+                for idx in range(label_idx + 1, section_end_idx + 1):
+                    e = elements[idx]
+                    if not isinstance(e, dict):
+                        continue
+                    if e.get("abstract_id") != abstract_id:
+                        continue
+                    if e.get("type") != "text":
+                        continue
+                    if e.get("element_type") is not None:
+                        continue
+                    e["element_type"] = "section_disclosure_text"
+                continue
+
+            # Autres sections : section_*_text + abstract_text
+            section_text_indices: List[int] = []
             for idx in range(label_idx + 1, section_end_idx + 1):
                 e = elements[idx]
                 if not isinstance(e, dict):
@@ -431,16 +463,15 @@ def process_single_abstract(
                     continue
                 if e.get("element_type") is not None:
                     continue
-                if e.get("signature") != AUTHOR_FONT:
-                    continue
-                section_text_elems.append(e)
+                if e.get("signature") == AUTHOR_FONT:
+                    section_text_indices.append(idx)
 
-            for e in section_text_elems:
-                if e.get("element_type") is None:
-                    # ex : section_background_and_aims -> section_background_and_aims_text
-                    e["element_type"] = f"{label_type}_text"
+            target_type = f"{label_type}_text"
+            for idx in section_text_indices:
+                e = elements[idx]
+                e["element_type"] = target_type
 
-            # 4.2 Texte résiduel (corps/italique/symbole) -> abstract_text
+            # Texte résiduel dans la zone → abstract_text
             for idx in range(label_idx + 1, section_end_idx + 1):
                 e = elements[idx]
                 if not isinstance(e, dict):
@@ -455,11 +486,19 @@ def process_single_abstract(
                     continue
                 e["element_type"] = "abstract_text"
 
-    # S'il n'y a aucune section, on pourrait typer tout le corps en abstract_text
-    # mais ce comportement n'est pas activé ici pour rester minimaliste.
+    # -----------------------------------------------------------------------
+    # 7) Image / table
+    # -----------------------------------------------------------------------
+    for e in span_elems:
+        if e.get("type") == "image" and e.get("element_type") is None:
+            e["element_type"] = "image"
+        if e.get("type") == "table" and e.get("element_type") is None:
+            e["element_type"] = "table"
 
 
-# --- Pipeline global sur le fichier ------------------------------------------
+# ---------------------------------------------------------------------------
+# Pipeline global
+# ---------------------------------------------------------------------------
 
 
 def process_file(input_path: Path, output_path: Path) -> None:
@@ -469,44 +508,31 @@ def process_file(input_path: Path, output_path: Path) -> None:
     with input_path.open("r", encoding="utf-8") as f:
         data = json.load(f)
 
-    # Racine = dict, éléments dans "elements"
-    if isinstance(data, dict):
-        elements = data.get("elements", [])
-        if not isinstance(elements, list):
-            raise ValueError("Le champ 'elements' du JSON doit être une liste.")
-    else:
-        elements = data
+    if not isinstance(data, dict) or "elements" not in data:
+        raise ValueError("Le JSON d'entrée doit être un dict contenant une clé 'elements'.")
+
+    elements = data["elements"]
+    if not isinstance(elements, list):
+        raise ValueError("Le champ 'elements' doit être une liste.")
 
     if not elements:
         raise ValueError("Aucun élément trouvé dans le JSON d'entrée.")
 
-    # On s'assure que les éléments sont triés par id
-    elements.sort(
-        key=lambda e: e.get("id", 0) if isinstance(e, dict) else 0
-    )
+    # On trie par id pour retrouver l'ordre PyMuPDF
+    elements.sort(key=lambda e: e.get("id", 0) if isinstance(e, dict) else 0)
 
-    # 1) calcul des spans d'abstracts
     spans = compute_abstract_spans(elements)
 
-    # 2) traiter chaque abstract
     for abs_idx, (code_elem, span_start, span_end) in enumerate(spans, start=1):
         if not isinstance(code_elem, dict):
             continue
         abstract_id = f"abs_{abs_idx:04d}"
         process_single_abstract(elements, code_elem, span_start, span_end, abstract_id)
 
-    # 3) sauvegarde
-    if isinstance(data, dict):
-        data["elements"] = elements
-        to_dump = data
-    else:
-        to_dump = elements
-
+    # Sauvegarde
+    data["elements"] = elements
     with output_path.open("w", encoding="utf-8") as f:
-        json.dump(to_dump, f, ensure_ascii=False, indent=2)
-
-
-# --- CLI ---------------------------------------------------------------------
+        json.dump(data, f, ensure_ascii=False, indent=2)
 
 
 def main() -> None:
@@ -514,12 +540,14 @@ def main() -> None:
         description="Passe 2 : typage contextuel des éléments d'un abstract."
     )
     parser.add_argument(
-        "-i", "--input",
+        "-i",
+        "--input",
         required=True,
         help="Fichier JSON en entrée (sortie de semantic_typing_pass_1.py).",
     )
     parser.add_argument(
-        "-o", "--output",
+        "-o",
+        "--output",
         required=True,
         help="Fichier JSON de sortie avec typage contextuel enrichi.",
     )
