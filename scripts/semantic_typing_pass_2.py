@@ -19,6 +19,8 @@ Sortie :
         * institution
         * section_*_text
         * section_supported_by / section_supported_by_text
+        * section_clinical_trial_registration_number /
+          section_clinical_trial_registration_number_text
         * section_disclosure / section_disclosure_text
         * abstract_text
         * image / table / image_text
@@ -47,16 +49,19 @@ ABSTRACT_TEXT_SIGNATURES = {
     "SymbolMT_8.5_0",
 }
 
+# Polices utilisées pour les légendes / texte d'image
 IMAGE_TEXT_SIGNATURES = {
     "STIX-Italic_8.5_6",
 }
 
+# Types de sections reconnues (labels de sections)
 SECTION_TYPES = {
     "section_background_and_aims",
     "section_materials_and_methods",
     "section_results",
     "section_conclusion",
-    "section_supported_by",   # nouveau
+    "section_supported_by",
+    "section_clinical_trial_registration_number",
     "section_disclosure",
 }
 
@@ -302,7 +307,7 @@ def process_single_abstract(
                     ):
                         e["element_type"] = "author"
 
-            # rattrapage
+            # rattrapage : tout AUTHOR_FONT non typé dans la zone auteurs
             for j in range(start_idx, semicolon_line_idx + 1):
                 lid = ordered_line_ids[j]
                 line_elems = lines[lid]
@@ -317,7 +322,7 @@ def process_single_abstract(
                         e["element_type"] = "author"
 
     # -----------------------------------------------------------------------
-    # Marquage des "Supported by:" comme section_supported_by
+    # Marquage des labels "Supported by:" et "Clinical Trial Registration Number:"
     # -----------------------------------------------------------------------
     for e in span_elems:
         if (
@@ -326,8 +331,11 @@ def process_single_abstract(
             and e.get("signature") in IMAGE_TEXT_SIGNATURES
         ):
             txt = (e.get("text") or "").strip()
-            if txt.lower().startswith("supported by:"):
+            txt_norm = txt.lower().replace("\u00a0", " ")
+            if txt_norm.startswith("supported by:"):
                 e["element_type"] = "section_supported_by"
+            elif txt_norm.startswith("clinical trial registration number:"):
+                e["element_type"] = "section_clinical_trial_registration_number"
 
     # -----------------------------------------------------------------------
     # Institutions
@@ -374,7 +382,7 @@ def process_single_abstract(
             break
 
     # -----------------------------------------------------------------------
-    # Sections (incl. supported_by & disclosure)
+    # Sections (sections classiques + supported_by + clinical_trial + disclosure)
     # -----------------------------------------------------------------------
     section_labels = [e for e in span_elems if e.get("element_type") in SECTION_TYPES]
     section_labels.sort(key=lambda e: e.get("id", 0))
@@ -402,6 +410,7 @@ def process_single_abstract(
             else:
                 section_end_idx = span_end
 
+            # Disclosure : tout texte non typé dans la zone
             if label_type == "section_disclosure":
                 for idx in range(label_idx + 1, section_end_idx + 1):
                     e = elements[idx]
@@ -416,6 +425,7 @@ def process_single_abstract(
                     e["element_type"] = "section_disclosure_text"
                 continue
 
+            # Supported by : tout texte non typé dans la zone
             if label_type == "section_supported_by":
                 for idx in range(label_idx + 1, section_end_idx + 1):
                     e = elements[idx]
@@ -428,6 +438,21 @@ def process_single_abstract(
                     if e.get("element_type") is not None:
                         continue
                     e["element_type"] = "section_supported_by_text"
+                continue
+
+            # Clinical Trial Registration Number : tout texte non typé dans la zone
+            if label_type == "section_clinical_trial_registration_number":
+                for idx in range(label_idx + 1, section_end_idx + 1):
+                    e = elements[idx]
+                    if not isinstance(e, dict):
+                        continue
+                    if e.get("abstract_id") != abstract_id:
+                        continue
+                    if e.get("type") != "text":
+                        continue
+                    if e.get("element_type") is not None:
+                        continue
+                    e["element_type"] = "section_clinical_trial_registration_number_text"
                 continue
 
             # autres sections : section_*_text + abstract_text
@@ -476,7 +501,7 @@ def process_single_abstract(
             if e.get("element_type") is None:
                 e["element_type"] = "table"
 
-    # texte de légende
+    # Texte de légende sous les images -> image_text
     for img in images:
         page = img.get("page", 0)
         pos = img.get("position", {})
